@@ -7,11 +7,9 @@ const projects = [
       title: "PaperStack ",
       description: "Modern website for iiit surat students , they can see all the previous years papers  and can upload there own papers as well.",
       longDescription: "Full-stack paper sharing platform for iiit surat students with user authentication, paper upload/download, and search functionality.",
-      image: "https://images.pexels.com/photos/230544/pexels-photo-230544.jpeg?auto=compress&cs=tinysrgb&w=800",
+      image: "/paperstack.png",
       images: [
-        "https://images.pexels.com/photos/230544/pexels-photo-230544.jpeg?auto=compress&cs=tinysrgb&w=400",
-        "https://images.pexels.com/photos/264636/pexels-photo-264636.jpeg?auto=compress&cs=tinysrgb&w=400",
-        "https://images.pexels.com/photos/265087/pexels-photo-265087.jpeg?auto=compress&cs=tinysrgb&w=400"
+        "/paperstack.png"
       ],
       tech: ["React", "Node.js", "MongoDB", "Express.js", "Tailwind CSS"],
       category: "Full-Stack",
