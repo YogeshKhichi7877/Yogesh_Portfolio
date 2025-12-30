@@ -1,7 +1,9 @@
+
 import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Mail, Phone, MapPin, Send, MessageCircle, Calendar, Clock, CheckCircle } from 'lucide-react';
+import { initContactScene } from '../lib/three-setup'; // Ensure this path matches your file structure
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -11,6 +13,8 @@ const Contact: React.FC = () => {
   const formRef = useRef<HTMLFormElement | null>(null);
   const contactInfoRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<HTMLDivElement | null>(null);
+  // Added canvas reference
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -23,6 +27,17 @@ const Contact: React.FC = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  // --- Start 3D Logic ---
+  useEffect(() => {
+    if (mapRef.current && canvasRef.current) {
+      const cleanup = initContactScene(mapRef.current, canvasRef.current);
+      return () => {
+        if (cleanup) cleanup();
+      };
+    }
+  }, []);
+  // --- End 3D Logic ---
 
   useEffect(() => {
     const tl = gsap.timeline({
@@ -53,14 +68,10 @@ const Contact: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // Simulate form submission
     await new Promise(resolve => setTimeout(resolve, 2000));
-    
     setIsSubmitting(false);
     setIsSubmitted(true);
     
-    // Reset form after success animation
     setTimeout(() => {
       setIsSubmitted(false);
       setFormData({
@@ -130,7 +141,6 @@ const Contact: React.FC = () => {
 
   return (
     <section ref={sectionRef} className="py-20 px-4 bg-gradient-to-b from-black via-gray-900 to-slate-900 relative overflow-hidden">
-      {/* Background Elements */}
       <div className="absolute inset-0">
         <div className="absolute top-0 left-1/3 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl"></div>
         <div className="absolute bottom-0 right-1/3 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl"></div>
@@ -145,7 +155,6 @@ const Contact: React.FC = () => {
         </h2>
         
         <div className="grid lg:grid-cols-5 gap-12">
-          {/* Contact Information */}
           <div ref={contactInfoRef} className="lg:col-span-2 space-y-8">
             <div>
               <h3 className="text-3xl font-bold text-white mb-4">Get In Touch</h3>
@@ -156,7 +165,6 @@ const Contact: React.FC = () => {
               </p>
             </div>
             
-            {/* Contact Methods */}
             <div className="space-y-6">
               {contactInfo.map((info, index) => (
                 <a
@@ -176,7 +184,6 @@ const Contact: React.FC = () => {
               ))}
             </div>
 
-            {/* Availability Status */}
             <div className="p-6 bg-gradient-to-br from-green-500/10 to-blue-500/10 backdrop-blur-sm rounded-xl border border-green-500/30">
               <div className="flex items-center gap-3 mb-3">
                 <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
@@ -188,15 +195,15 @@ const Contact: React.FC = () => {
               </p>
             </div>
 
-            {/* Interactive Map Placeholder */}
-            <div ref={mapRef} className="h-64 bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm rounded-xl border border-gray-700/50 overflow-hidden">
+            {/* Interactive 3D Model Container */}
+            <div ref={mapRef} className="h-64 bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm rounded-xl border border-gray-700/50 overflow-hidden relative">
               <div id="contact-threejs" className="w-full h-full">
-                <canvas id="contact-canvas" className="w-full h-full"></canvas>
+                {/* Linked the Ref here */}
+                <canvas ref={canvasRef} id="contact-canvas" className="w-full h-full"></canvas>
               </div>
             </div>
           </div>
           
-          {/* Contact Form */}
           <div className="lg:col-span-3">
             <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
               <div className="grid md:grid-cols-2 gap-6">
@@ -333,7 +340,6 @@ const Contact: React.FC = () => {
               </button>
             </form>
 
-            {/* Additional Info */}
             <div className="mt-8 p-6 bg-gradient-to-br from-gray-800/30 to-gray-900/30 backdrop-blur-sm rounded-xl border border-gray-700/30">
               <h4 className="text-white font-semibold mb-3">What happens next?</h4>
               <div className="space-y-2 text-gray-400 text-sm">
@@ -347,7 +353,6 @@ const Contact: React.FC = () => {
         </div>
       </div>
 
-      {/* SVG Background Pattern */}
       <svg className="absolute inset-0 w-full h-full opacity-5" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <pattern id="waves" width="100" height="20" patternUnits="userSpaceOnUse">

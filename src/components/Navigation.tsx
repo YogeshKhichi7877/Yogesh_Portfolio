@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
-import { Menu, X, Home, User, Briefcase, Mail, Code, GraduationCap } from 'lucide-react';
+import { Home, User, Briefcase, Mail, Code, GraduationCap } from 'lucide-react';
 
 const Navigation: React.FC = () => {
   const navRef = useRef<HTMLElement>(null);
