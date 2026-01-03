@@ -21,6 +21,42 @@ const projects = [
       team: "1 developer",
       status: "Completed"
     },
+     {
+      title: "Resume Analyser ",
+      description: "Modern fullStack application used to Analyse your Resume .",
+      longDescription: "fullstack website tells weakness and strenghts with the help of AI , it tells your weakness , strenghts , grammar mistakes and more . Also have someintersting Ai tools to your work easy .",
+      image: "/resumeAnalyser.png",
+      images: [
+       "/resumeAnalyser.png"
+      ],
+      tech: ["React", "Node.js", "MongoDB", "Express.js", "Tailwind CSS", 'Groq Ai'],
+      category: "Full-Stack",
+      github: "",
+      live: "https://resumeanalyser-psi.vercel.app/",
+      featured: true,
+      stats: { stars: 302, forks: 59, views: "3.5k" },
+      duration: "1 months",
+      team: "1 developer",
+      status: "Completed"
+    },
+    {
+      title: "Expense Tracker",
+      description: "A web application for tracking personal expenses and managing budgets.",
+      longDescription: "This application allows users to log their expenses, categorize them, and visualize their spending habits over time.category vise pie charts and many more ",
+      image: "/expense.png",
+      images: [
+       '/expense.png'
+      ],
+      tech: ["Node.js", "Express.js", "React.js", "MongoDB", "PWA"],
+      category: "Full-Stack",
+      github: "#",
+      live: "https://expensetracker2-eight.vercel.app/",
+      featured: true,
+      stats: { stars: 145, forks: 123, views: "3.8k" },
+      duration: "2 weeks",
+      team: "1 developer",
+      status: "Completed"
+    },
       {
       title: "E-Commerce Platform",
       description: "Modern e-commerce solution , real-time inventory management, and advanced analytics dashboard.Includes advanced security features and user authentication.",
@@ -117,26 +153,6 @@ const projects = [
       live: "#",
       featured: false,
       stats: { stars: 167, forks: 23, views: "2.1k" },
-      duration: "2 weeks",
-      team: "1 developer",
-      status: "Completed"
-    },
-    {
-      title: "Expense Tracker",
-      description: "A web application for tracking personal expenses and managing budgets.",
-      longDescription: "This application allows users to log their expenses, categorize them, and visualize their spending habits over time.category vise pie charts and many more ",
-      image: "https://images.pexels.com/photos/2007635/pexels-photo-2007635.jpeg?auto=compress&cs=tinysrgb&w=800",
-      images: [
-        "https://images.pexels.com/photos/2007647/pexels-photo-2007647.jpeg?auto=compress&cs=tinysrgb&w=400",
-        "https://images.pexels.com/photos/2007669/pexels-photo-2007669.jpeg?auto=compress&cs=tinysrgb&w=400",
-        "https://images.pexels.com/photos/2007666/pexels-photo-2007666.jpeg?auto=compress&cs=tinysrgb&w=400"
-      ],
-      tech: ["Three.js", "WebXR", "A-Frame", "WebGL", "Web Audio API", "PWA"],
-      category: "Full-Stack",
-      github: "#",
-      live: "#",
-      featured: true,
-      stats: { stars: 445, forks: 123, views: "7.8k" },
       duration: "2 weeks",
       team: "1 developer",
       status: "Completed"
