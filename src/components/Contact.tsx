@@ -96,9 +96,9 @@ const Contact: React.FC = () => {
     { 
       icon: Mail, 
       label: "Email", 
-      value: "ui24s85@iiitsurat.ac.in",
+      value: "ui24cs85@iiitsurat.ac.in",
       description: "Drop me a line anytime",
-      link: "mailto:ui24s85@iiitsurat.ac.in"
+      link: "mailto:ui24cs85@iiitsurat.ac.in"
     },
     { 
       icon: Phone, 
