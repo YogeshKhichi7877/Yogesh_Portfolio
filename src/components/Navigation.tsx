@@ -84,10 +84,11 @@ const Navigation: React.FC = () => {
           {/* Logo */}
           <div ref={logoRef} className="flex items-center gap-3">
             <div className="relative">
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
-                <Code className="w-6 h-6 text-white" />
-              </div>
-              <div className="absolute -inset-1 bg-gradient-to-br from-blue-500/20 to-purple-600/20 rounded-xl blur-sm"></div>
+              <img 
+                src="/yk_logo2.png" 
+                alt="Yogesh Khinchi Logo" 
+                className="w-12 h-12 object-contain"
+              />
             </div>
             <div>
               <div className="text-2xl font-bold text-white">

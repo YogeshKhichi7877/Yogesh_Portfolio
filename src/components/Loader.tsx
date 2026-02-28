@@ -109,19 +109,11 @@ const Loader: React.FC<LoaderProps> = ({ isLoading }) => {
           ref={letterRef}
           className="relative mb-8"
         >
-          <div className="text-8xl md:text-9xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500 animate-gradient">
-            Y
-          </div>
-          
-          {/* Glowing effect */}
-          <div className="absolute inset-0 text-8xl md:text-9xl font-bold text-blue-400/20 blur-lg">
-            Y
-          </div>
-          
-          {/* Border effect */}
-          <div className="absolute inset-0 text-8xl md:text-9xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-blue-400 to-purple-600 opacity-50">
-            Y
-          </div>
+          <img 
+            src="/yk_logo2.png" 
+            alt="Yogesh Khinchi" 
+            className="w-32 h-32 md:w-40 md:h-40 object-contain"
+          />
         </div>
 
         {/* Loading Text */}
