@@ -192,7 +192,7 @@
 
 
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 import Loader from './components/Loader';
 import Navigation from './components/Navigation';
@@ -213,6 +213,12 @@ const App: React.FC = () => {
   // Controlled loading state for showing loader first
   const [isLoading, setIsLoading] = useState(true);
 
+  // Check if device has a fine pointer (mouse) - hide cursor on touch devices
+  const showCursor = useMemo(() => {
+    if (typeof window === 'undefined') return false;
+    return window.matchMedia('(pointer: fine)').matches && window.innerWidth > 768;
+  }, []);
+
   useEffect(() => {
     // Note: Individual Three.js scenes are now initialized inside 
     // their respective components (Hero, About, etc.) via useEffect 
@@ -231,7 +237,7 @@ const App: React.FC = () => {
     <Routes>
       <Route path="/" element={
         <>
-          <CustomCursor />
+          {showCursor && <CustomCursor />}
           <div className="bg-black text-white overflow-x-hidden">
             {isLoading && <Loader isLoading={isLoading} />}
             {!isLoading && (

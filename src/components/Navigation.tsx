@@ -26,7 +26,13 @@ const Navigation: React.FC = () => {
 
     // Scroll effect
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+      const scrollY = window.scrollY;
+      const halfPage = window.innerHeight * 0.5;
+      
+      // On mobile, show navbar only after scrolling half the page
+      // On desktop, show navbar after scrolling 50px
+      const shouldShowNav = window.innerWidth < 768 ? scrollY > halfPage : scrollY > 50;
+      setScrolled(shouldShowNav);
       
       // Update active section based on scroll position
       const sections = ['home', 'about', 'projects', 'education', 'contact'];
@@ -45,7 +51,6 @@ const Navigation: React.FC = () => {
         }
       }
       // Progress bar calculation
-      const scrollY = window.scrollY;
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
       setProgress(docHeight > 0 ? (scrollY / docHeight) * 100 : 0);
     };
@@ -75,26 +80,27 @@ const Navigation: React.FC = () => {
       ref={navRef}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled 
-          ? 'bg-black/90 backdrop-blur-md border-b border-gray-800/50 shadow-2xl' 
-          : 'bg-transparent'
+          ? 'bg-black/80 backdrop-blur-md border-b border-gray-800/50 shadow-2xl'
+          : window.innerWidth < 768 
+            ? 'bg-black/40 backdrop-blur-sm'
+            : 'bg-transparent'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4">
-        <div className="flex items-center justify-between h-20">
+        <div className="flex items-center justify-between h-16 sm:h-20">
           {/* Logo */}
-          <div ref={logoRef} className="flex items-center gap-3">
+          <div ref={logoRef} className="flex items-center gap-2 sm:gap-3">
             <div className="relative">
               <img 
                 src="/yk_logo2.png" 
                 alt="Yogesh Khinchi Logo" 
-                className="w-12 h-12 object-contain"
+                className="w-10 h-10 sm:w-14 sm:h-14 object-contain"
               />
             </div>
             <div>
-              <div className="text-2xl font-bold text-white">
-                YOGESH<span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600">Portfolio</span>
+              <div className="text-lg sm:text-2xl font-bold text-white">
+                Yogesh<span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600">Khinchi</span>
               </div>
-              <div className="text-xs text-gray-400 font-medium">Creative Developer</div>
             </div>
           </div>
 

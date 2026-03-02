@@ -20,8 +20,7 @@ const Footer: React.FC = () => {
               />
               <div>
                 <div className="text-xl font-bold text-white">
-                  YOGESH
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600"> Dev</span>
+                  YogeshKhinchi
                 </div>
               </div>
             </div>
@@ -57,7 +56,7 @@ const Footer: React.FC = () => {
 
         <div className="border-t border-gray-800/50 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-400 text-sm">
-            © 2026 YOGESH Khinchi. Built with React, Three.js, GSAP & Tailwind CSS.
+            © 2026 YogeshKhinchi. Built with React, Three.js, GSAP & Tailwind CSS.
           </p>
           <div className="flex gap-4 mt-4 md:mt-0">
             <Link to="/privacy" className="text-gray-400 hover:text-white transition-colors">Privacy</Link>

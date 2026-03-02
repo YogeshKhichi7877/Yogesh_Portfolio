@@ -96,7 +96,7 @@ const Education: React.FC = () => {
 
   const education = [
     {
-      degree: "Currently pursuing my B.Tech in Computer Science and Engineering from IIT Surat ",
+      degree: "Currently pursuing my B.Tech in Computer Science and Engineering from IIIT Surat ",
       institution: "Not available yet",
       location: "null",
       period: "null",
@@ -112,7 +112,7 @@ const Education: React.FC = () => {
   
     {
       degree: "Bachelor of Technology in Computer Science",
-      institution: "Indian Institute of Technology (IIT) Surat",
+      institution: "Indian Institute of Information Technology (IIIT) Surat",
       location: "Surat, (Gujarat) India",
       period: "2024 - 2028",
       gpa: "8.2/10.0",

@@ -109,8 +109,8 @@ Skills:
 - UI/UX Design, Figma
 
 Education:
-- Master of Computer Science - IIT surat
-- Bachelor of Computer Science - Delhi University
+- Master of Computer Science - IIIT Surat
+- Bachelor of Computer Science - IIIT Surat
 
 Projects:
 - Interactive Portfolio Website
@@ -132,7 +132,7 @@ Projects:
   return (
     <section
       ref={heroRef}
-      className="relative w-full min-h-[160vh] sm:min-h-[120vh] md:min-h-[120vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900"
+      className="relative w-full min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900"
     >
       {/* Three.js Canvas Container */}
       <div id="threejs-hero" className="absolute inset-0 z-0">
@@ -147,12 +147,12 @@ Projects:
       </div>
 
       {/* Content */}
-      <div className="relative z-20 w-full max-w-7xl mx-auto px-4 py-8">
-        <div className="flex flex-col lg:flex-row items-center justify-center gap-16 w-full min-h-screen">
+      <div className="relative z-20 w-full max-w-7xl mx-auto px-4 pt-32 pb-12 sm:pt-16 sm:py-16">
+        <div className="flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-16 w-full min-h-screen lg:min-h-auto pt-8 lg:pt-0">
           {/* Profile Image */}
-          <div ref={imageRef} className="flex justify-center items-center mt-[30vh] md:mt-[20vw] pt-6 md:pt-[20vw] lg:pt-0 w-full md:w-auto">
+          <div ref={imageRef} className="flex justify-center items-center order-1 lg:order-2 w-full md:w-auto">
             <div className="relative flex justify-center items-center">
-              <div className="rounded-full overflow-hidden border-4 border-white/20 shadow-2xl backdrop-blur-sm bg-gradient-to-br from-blue-500/20 to-purple-600/20 w-40 h-40 sm:w-56 sm:h-56 md:w-64 md:h-64 lg:w-80 lg:h-80 xl:w-96 xl:h-96 transition-all duration-300">
+              <div className="rounded-full overflow-hidden border-4 border-white/20 shadow-2xl backdrop-blur-sm bg-gradient-to-br from-blue-500/20 to-purple-600/20 w-32 h-32 sm:w-48 sm:h-48 md:w-64 md:h-64 lg:w-80 lg:h-80 xl:w-96 xl:h-96 transition-all duration-300">
                 <img
                    src="/portfolio .jpg"
                    alt="YOGESH Khinchi - Creative Developer"
@@ -166,10 +166,10 @@ Projects:
           </div>
 
           {/* Text Content */}
-          <div className="flex-1 text-center lg:text-right max-w-2xl pt-[7vw]">
+          <div className="flex-1 text-center lg:text-right max-w-2xl order-2 lg:order-1">
             <h1
               ref={titleRef}
-              className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-4 sm:mb-6 leading-tight"
             >
               Hi, I'm .....
               <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 animate-gradient">
@@ -179,61 +179,53 @@ Projects:
 
             <p
               ref={subtitleRef}
-              className="text-lg md:text-xl lg:text-2xl text-gray-300 mb-8 leading-relaxed"
+              className="text-base sm:text-lg md:text-xl text-gray-300 mb-6 sm:mb-8 leading-relaxed px-2 sm:px-0"
             >
               Driven by curiosity and creativity, I craft responsive designs that not only look great but also deliver seamless performance across all devices ..
             </p>
 
-            <div ref={ctaRef} className="flex flex-col sm:flex-row gap-4 mb-8 justify-center lg:justify-end">
-              <button
-                onMouseEnter={handleButtonHover}
-                onMouseLeave={handleButtonLeave}
-                className="group px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full font-semibold hover:shadow-2xl hover:shadow-blue-500/25 transition-all duration-300 flex items-center justify-center gap-2"
-              >
-                <span>View My Work</span>
-                <ChevronDown className="w-5 h-5 group-hover:translate-y-1 transition-transform" />
-              </button>
+            <div ref={ctaRef} className="flex justify-center lg:justify-end mb-6 sm:mb-8 px-2 sm:px-0">
               <button
                 onClick={downloadResume}
                 onMouseEnter={handleButtonHover}
                 onMouseLeave={handleButtonLeave}
-                className="group px-8 py-4 border-2 border-white/30 text-white rounded-full font-semibold hover:bg-white/10 transition-all duration-300 backdrop-blur-sm flex items-center justify-center gap-2"
+                className="group px-6 py-3 sm:px-8 sm:py-4 border-2 border-white/30 text-white rounded-full font-semibold hover:bg-white/10 transition-all duration-300 backdrop-blur-sm flex items-center justify-center gap-2 text-sm sm:text-base"
               >
                 <a
                   className="flex items-center gap-2 text-white"
                   style={{ textDecoration: 'none' }}
                 >
-                  <Download className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                  <Download className="w-4 h-4 sm:w-5 sm:h-5 group-hover:scale-110 transition-transform" />
                   <span>Download CV</span>
                 </a>
               </button>
             </div>
 
             {/* Social Links */}
-            <div ref={socialRef} className="flex gap-4 justify-center lg:justify-end">
+            <div ref={socialRef} className="flex gap-3 sm:gap-4 justify-center lg:justify-end px-2 sm:px-0">
               <a
                 href="#"
-                className="p-3 bg-white/10 backdrop-blur-sm rounded-full text-white hover:bg-white/20 transition-all duration-300 hover:scale-110"
+                className="p-2 sm:p-3 bg-white/10 backdrop-blur-sm rounded-full text-white hover:bg-white/20 transition-all duration-300 hover:scale-110"
                 onMouseEnter={e => gsap.to(e.currentTarget, { scale: 1.1, duration: 0.2 })}
                 onMouseLeave={e => gsap.to(e.currentTarget, { scale: 1, duration: 0.2 })}
               >
-                <Github className="w-6 h-6" />
+                <Github className="w-5 h-5 sm:w-6 sm:h-6" />
               </a>
               <a
-                href="#"
-                className="p-3 bg-white/10 backdrop-blur-sm rounded-full text-white hover:bg-white/20 transition-all duration-300 hover:scale-110"
+                href="https://www.linkedin.com/in/yogesh-khinchi-1103j?utm_source=share_via&utm_content=profile&utm_medium=member_android"
+                className="p-2 sm:p-3 bg-white/10 backdrop-blur-sm rounded-full text-white hover:bg-white/20 transition-all duration-300 hover:scale-110"
                 onMouseEnter={e => gsap.to(e.currentTarget, { scale: 1.1, duration: 0.2 })}
                 onMouseLeave={e => gsap.to(e.currentTarget, { scale: 1, duration: 0.2 })}
               >
-                <Linkedin className="w-6 h-6" />
+                <Linkedin className="w-5 h-5 sm:w-6 sm:h-6" />
               </a>
               <a
                 href="mailto:ui24s85@iiitsurat.ac.in"
-                className="p-3 bg-white/10 backdrop-blur-sm rounded-full text-white hover:bg-white/20 transition-all duration-300 hover:scale-110"
+                className="p-2 sm:p-3 bg-white/10 backdrop-blur-sm rounded-full text-white hover:bg-white/20 transition-all duration-300 hover:scale-110"
                 onMouseEnter={e => gsap.to(e.currentTarget, { scale: 1.1, duration: 0.2 })}
                 onMouseLeave={e => gsap.to(e.currentTarget, { scale: 1, duration: 0.2 })}
               >
-                <Mail className="w-6 h-6" />
+                <Mail className="w-5 h-5 sm:w-6 sm:h-6" />
               </a>
             </div>
           </div>
