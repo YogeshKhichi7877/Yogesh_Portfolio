@@ -1,5 +1,5 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
+import Footer3D from './Footer3D';
 
 const Footer: React.FC = () => {
   return (
@@ -7,6 +7,9 @@ const Footer: React.FC = () => {
       <div className="absolute inset-0">
         <div className="absolute top-0 left-1/4 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl"></div>
         <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-purple-500/5 rounded-full blur-3xl"></div>
+      </div>
+      <div className="absolute inset-0 z-0">
+        <Footer3D />
       </div>
 
       <div className="max-w-7xl mx-auto relative z-10">

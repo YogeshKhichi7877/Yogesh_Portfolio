@@ -266,7 +266,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Code2, Palette, Zap, Globe, Award, Users, Heart } from 'lucide-react';
-import { initAboutScene } from '../lib/three-setup'; // Ensure this path is correct for your project
+import About3D from './About3D';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -292,20 +292,9 @@ const About: React.FC = () => {
   const statsRef = useRef<Array<HTMLDivElement|null>>([]);
   const imageRef = useRef<HTMLDivElement>(null);
   
-  // Refs for Three.js
-  const threeContainerRef = useRef<HTMLDivElement>(null);
-  const threeCanvasRef = useRef<HTMLCanvasElement>(null);
-
   const [statCounts, setStatCounts] = useState(stats.map(() => 0));
 
   useEffect(() => {
-    // 1. Initialize Three.js Scene
-    let cleanupThree: (() => void) | undefined;
-    
-    if (threeContainerRef.current && threeCanvasRef.current) {
-      cleanupThree = initAboutScene(threeContainerRef.current, threeCanvasRef.current);
-    }
-
     // 2. GSAP Animations
     const tl = gsap.timeline({
       scrollTrigger: {
@@ -317,13 +306,13 @@ const About: React.FC = () => {
     });
 
     tl.fromTo(titleRef.current,
-      { y: 50, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1, ease: "power3.out" }
+      { y: 50, opacity: 0, filter: 'blur(5px)' },
+      { y: 0, opacity: 1, filter: 'blur(0px)', duration: 1, ease: 'power3.out' }
     )
     .fromTo(contentRef.current,
       { y: 30, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" },
-      "-=0.6"
+      { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' },
+      '-=0.6'
     )
     .fromTo(imageRef.current,
       { x: 50, opacity: 0 },
@@ -331,9 +320,9 @@ const About: React.FC = () => {
       "-=0.6"
     )
     .fromTo(skillsRef.current.filter(Boolean),
-      { y: 40, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.5, stagger: 0.09, ease: "power3.out" },
-      "-=0.4"
+      { y: 40, opacity: 0, scale: 0.95 },
+      { y: 0, opacity: 1, scale: 1, duration: 0.6, stagger: 0.1, ease: 'power3.out' },
+      '-=0.4'
     )
     .fromTo(statsRef.current.filter(Boolean),
       { scale: 0, opacity: 0 },
@@ -369,7 +358,6 @@ const About: React.FC = () => {
 
     return () => {
       tl.kill();
-      if (cleanupThree) cleanupThree();
       ScrollTrigger.getAll().forEach(t => t.kill());
     };
   }, []);
@@ -412,10 +400,9 @@ const About: React.FC = () => {
             
             {/* Three.js Container */}
             <div 
-              ref={threeContainerRef} 
               className="h-80 rounded-2xl overflow-hidden bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 relative"
             >
-              <canvas ref={threeCanvasRef} className="w-full h-full cursor-grab active:cursor-grabbing"></canvas>
+              <About3D />
             </div>
             <p className="text-xs text-gray-500 text-center uppercase tracking-widest">Interact with the 3D Space</p>
           </div>
