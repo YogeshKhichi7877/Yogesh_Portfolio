@@ -5,7 +5,7 @@ import * as THREE from 'three';
 
 const Jupiter = () => {
   const meshRef = useRef<THREE.Mesh>(null);
-  const texture = useTexture('/jupiter.jpg');
+  const texture = useTexture('/8k_jupiter.jpg');
   
   useFrame((state) => {
     if (meshRef.current) {
