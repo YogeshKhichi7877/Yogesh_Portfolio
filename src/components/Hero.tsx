@@ -94,37 +94,10 @@ const Hero = () => {
   };
 
   const downloadResume = () => {
-    const resumeContent = `
-Yogesh Khinchi - Resume
-
-Full Stack Developer & UI/UX Designer
-
-Contact: yogesh.khinchi@email.com
-LinkedIn: linkedin.com/in/yogesh-khinchi
-GitHub: github.com/yogesh-khinchi
-
-Skills:
-- React, TypeScript, Node.js
-- Three.js, GSAP, CSS3
-- MongoDB, PostgreSQL
-- UI/UX Design, Figma
-
-Education:
-- Master of Computer Science - IIIT Surat
-- Bachelor of Computer Science - IIIT Surat
-
-Projects:
-- Interactive Portfolio Website
-- E-commerce Platform
-- 3D Visualization Tool
-    `;
-    
-    localStorage.setItem('yogesh-resume', resumeContent);
-    
+    // Create an anchor element to download the PDF
     const element = document.createElement('a');
-    const file = new Blob([resumeContent], { type: 'text/plain' });
-    element.href = URL.createObjectURL(file);
-    element.download = 'Yogesh_Khinchi_Resume.txt';
+    element.href = '/Yogesh_Khinchi_Resume_v3.pdf';
+    element.download = 'Yogesh_Khinchi_Resume.pdf';
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);

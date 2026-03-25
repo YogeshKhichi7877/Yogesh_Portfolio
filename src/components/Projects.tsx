@@ -22,7 +22,7 @@ const projects = [
       status: "Completed"
     },
      {
-      title: "Resume Analyser ",
+      title: "Resume Lens ",
       description: "Modern fullStack application used to Analyse your Resume .",
       longDescription: "fullstack website tells weakness and strenghts with the help of AI , it tells your weakness , strenghts , grammar mistakes and more . Also have someintersting Ai tools to your work easy .",
       image: "/resumeAnalyser.png",
@@ -32,7 +32,7 @@ const projects = [
       tech: ["React", "Node.js", "MongoDB", "Express.js", "Tailwind CSS", 'Groq Ai'],
       category: "Full-Stack",
       github: "",
-      live: "https://resumeanalyser-psi.vercel.app/",
+      live: "http://www.resumelens.me",
       featured: true,
       stats: { stars: 302, forks: 59, views: "3.5k" },
       duration: "1 months",
