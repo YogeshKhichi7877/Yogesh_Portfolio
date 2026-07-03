@@ -8,30 +8,30 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico', 'logo.png', 'robots.txt'],
+      includeAssets: ['yk_logo2.png', 'robots.txt', 'sitemap.xml'],
       manifest: {
         name: 'Yogesh Khinchi Portfolio',
-        short_name: 'Yogesh Portfolio',
-        description: 'Creative Developer Portfolio showcasing modern web technologies, Three.js experiences, and innovative design solutions.',
-        theme_color: '#0a0a0a',
-        background_color: '#0a0a0a',
+        short_name: 'Yogesh Khinchi',
+        description: 'Full-stack developer and creative 3D web designer portfolio for modern web apps, AI-powered tools, and interactive Three.js experiences.',
+        theme_color: '#050816',
+        background_color: '#050816',
         display: 'standalone',
         orientation: 'portrait',
         scope: '/',
         start_url: '/',
         icons: [
           {
-            src: 'logo.png',
+            src: 'yk_logo2.png',
             sizes: '192x192',
             type: 'image/png'
           },
           {
-            src: 'logo.png',
+            src: 'yk_logo2.png',
             sizes: '512x512',
             type: 'image/png'
           },
           {
-            src: 'logo.png',
+            src: 'yk_logo2.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'any maskable'
@@ -91,5 +91,17 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ['lucide-react'],
   },
+  build: {
+    chunkSizeWarningLimit: 1200,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          react: ['react', 'react-dom', 'react-router-dom'],
+          three: ['three', '@react-three/fiber', '@react-three/drei'],
+          animation: ['gsap', 'lenis'],
+          icons: ['lucide-react'],
+        },
+      },
+    },
+  },
 });
-

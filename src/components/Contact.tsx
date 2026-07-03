@@ -1,305 +1,241 @@
+import { useState } from 'react';
+import {
+  CheckCircle2,
+  Clock,
+  Github,
+  Instagram,
+  Linkedin,
+  LockKeyhole,
+  Mail,
+  MapPin,
+  Pencil,
+  Phone,
+  Send,
+  User,
+  type LucideIcon,
+} from 'lucide-react';
+import { SectionShell } from './layout/SectionShell';
+import { ContactGlobeVisual } from './ui/ReferenceVisuals';
+import { siteProfile, socialLinks } from '../lib/site';
 
-import React, { useEffect, useRef, useState } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Mail, Phone, MapPin, Send, MessageCircle, Calendar, Clock, CheckCircle } from 'lucide-react';
-import { initContactScene } from '../lib/three-setup'; // Ensure this path matches your file structure
+const inputBaseClasses =
+  'w-full rounded-2xl border border-white/10 bg-white/[0.06] py-4 pl-14 pr-4 text-base text-os-text outline-none transition placeholder:text-os-muted/70 focus:border-os-cyan/55 focus:bg-white/[0.09] focus:ring-2 focus:ring-os-cyan/15';
 
-gsap.registerPlugin(ScrollTrigger);
+const contactItems = [
+  {
+    icon: Mail,
+    label: 'Email',
+    getValue: () => siteProfile.email,
+    getHref: () => `mailto:${siteProfile.email}`,
+  },
+  {
+    icon: Phone,
+    label: 'Phone',
+    getValue: () => siteProfile.phone,
+    getHref: () => `tel:${siteProfile.phone.replace(/\s+/g, '')}`,
+  },
+  {
+    icon: MapPin,
+    label: 'Location',
+    getValue: () => siteProfile.location,
+    getHref: () => undefined,
+  },
+  {
+    icon: Clock,
+    label: 'Availability',
+    getValue: () => 'Open for opportunities',
+    getHref: () => undefined,
+    online: true,
+  },
+];
 
-const Contact: React.FC = () => {
-  const sectionRef = useRef<HTMLElement | null>(null);
-  const titleRef = useRef<HTMLHeadingElement | null>(null);
-  const formRef = useRef<HTMLFormElement | null>(null);
-  const contactInfoRef = useRef<HTMLDivElement | null>(null);
-  const mapRef = useRef<HTMLDivElement | null>(null);
-  // Added canvas reference
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+const socialIconMap: Record<string, LucideIcon> = {
+  LinkedIn: Linkedin,
+  GitHub: Github,
+  Instagram,
+  Email: Mail,
+};
 
+const Contact = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    subject: '',
     message: '',
-    budget: '',
-    timeline: ''
   });
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  // --- Start 3D Logic ---
-  useEffect(() => {
-    if (mapRef.current && canvasRef.current) {
-      const cleanup = initContactScene(mapRef.current, canvasRef.current);
-      return () => {
-        if (cleanup) cleanup();
-      };
-    }
-  }, []);
-  // --- End 3D Logic ---
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    setFormData((current) => ({
+      ...current,
+      [event.target.name]: event.target.value,
+    }));
+  };
 
-  useEffect(() => {
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: sectionRef.current,
-        start: "top 80%",
-        end: "bottom 20%",
-        toggleActions: "play none none reverse"
-      }
-    });
-
-    tl.fromTo(titleRef.current,
-      { y: 50, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1, ease: "power3.out" }
-    )
-    .fromTo([contactInfoRef.current, formRef.current],
-      { y: 40, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8, stagger: 0.2, ease: "power3.out" },
-      "-=0.6"
-    )
-    .fromTo(mapRef.current,
-      { scale: 0.8, opacity: 0 },
-      { scale: 1, opacity: 1, duration: 0.8, ease: "back.out(1.7)" },
-      "-=0.4"
-    );
-  }, []);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    setIsSubmitting(false);
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     setIsSubmitted(true);
-    
-    setTimeout(() => {
+
+    window.setTimeout(() => {
       setIsSubmitted(false);
       setFormData({
         name: '',
         email: '',
-        subject: '',
         message: '',
-        budget: '',
-        timeline: ''
       });
-    }, 3000);
+    }, 3500);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const contactInfo = [
-    { 
-      icon: Mail, 
-      label: "Email", 
-      value: "ui24cs85@iiitsurat.ac.in",
-      description: "Drop me a line anytime",
-      link: "mailto:ui24cs85@iiitsurat.ac.in"
+  const socialItems = [
+    ...socialLinks.filter((link) =>
+      ['LinkedIn', 'GitHub', 'Instagram'].includes(link.label),
+    ),
+    {
+      label: 'Email',
+      href: `mailto:${siteProfile.email}`,
     },
-    { 
-      icon: Phone, 
-      label: "Phone", 
-      value: "+91 7877080701",
-      description: "Mon-Fri 9AM-6PM EST",
-      link: "tel:+917877080701"
-    },
-    { 
-      icon: MapPin, 
-      label: "Location", 
-      value: "Surat, Gujarat, India",
-      description: "Available for remote work",
-      link: "#"
-    },
-    { 
-      icon: MessageCircle, 
-      label: "Discord", 
-      value: "Yogeshdev#1234",
-      description: "Quick chat & collaboration",
-      link: "#"
-    }
-  ];
-
-  const budgetRanges = [
-    "< 5,000",
-    "5,000 - 10,000",
-    "10,000 - 25,000",
-    "25,000 - 50,000",
-    "50,000+"
-  ];
-
-  const timelineOptions = [
-    "ASAP",
-    "1-2 weeks",
-    "1 month",
-    "2-3 months",
-    "3+ months"
   ];
 
   return (
-    <section ref={sectionRef} className="py-20 px-4 bg-gradient-to-b from-black via-gray-900 to-slate-900 relative overflow-hidden">
-      <div className="absolute inset-0">
-        <div className="absolute top-0 left-1/3 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 right-1/3 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl"></div>
-      </div>
+    <SectionShell
+      id="contact"
+      className="relative bg-transparent pb-16 pt-24 sm:pb-20 sm:pt-28"
+      eyebrow=""
+      title={null}
+      description=""
+    >
+      <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.78fr_0.95fr_0.9fr] lg:items-center">
+        <div>
+          <p className="font-mono text-sm font-bold uppercase tracking-[0.26em] text-os-violet">
+            Get In Touch
+          </p>
 
-      <div className="max-w-7xl mx-auto relative z-10">
-        <h2 
-          ref={titleRef}
-          className="text-4xl md:text-6xl font-bold text-center mb-16 text-white"
-        >
-          Let's Work <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600">Together</span>
-        </h2>
-        
-        <div className="grid lg:grid-cols-5 gap-12">
-          <div ref={contactInfoRef} className="lg:col-span-2 space-y-8">
-            <div>
-              <h3 className="text-3xl font-bold text-white mb-4">Get In Touch</h3>
-              <p className="text-xl text-gray-400 leading-relaxed mb-8">
-                Ready to bring your ideas to life? Let's discuss your project and 
-                create something amazing together. I'm always excited to work on 
-                innovative projects with passionate people.
-              </p>
-            </div>
-            
-            <div className="space-y-6">
-              {contactInfo.map((info, index) => (
-                <a
-                  key={index}
-                  href={info.link}
-                  className="group flex items-start gap-4 p-4 bg-gradient-to-br from-gray-800/30 to-gray-900/30 backdrop-blur-sm rounded-xl border border-gray-700/30 hover:border-blue-500/50 transition-all duration-300 hover:transform hover:scale-105"
-                >
-                  <div className="p-3 bg-blue-500/20 rounded-lg border border-blue-500/30 group-hover:bg-blue-500/30 transition-colors">
-                    <info.icon className="w-6 h-6 text-blue-400" />
+          <h2 className="mt-5 font-display text-5xl font-black tracking-tight text-os-text sm:text-6xl lg:text-7xl">
+            Let&apos;s{' '}
+            <span className="bg-gradient-to-r from-os-cyan via-blue-400 to-os-violet bg-clip-text text-transparent">
+              Connect
+            </span>
+          </h2>
+
+          <p className="mt-7 max-w-md text-xl leading-9 text-os-muted">
+            Have a project idea or want to collaborate? I&apos;d love to hear from you.
+          </p>
+
+          <div className="mt-8 space-y-5">
+            {contactItems.map((item) => {
+              const Icon = item.icon;
+              const value = item.getValue();
+              const href = item.getHref();
+
+              const card = (
+                <div className="group flex items-center gap-5">
+                  <div className="grid h-16 w-16 shrink-0 place-items-center rounded-2xl border border-os-violet/45 bg-os-violet/10 text-os-violet shadow-[0_0_30px_rgba(139,92,246,0.22)] transition group-hover:border-os-cyan/45 group-hover:text-os-cyan">
+                    <Icon className="h-8 w-8" strokeWidth={1.8} aria-hidden="true" />
                   </div>
+
                   <div>
-                    <p className="text-gray-400 text-sm font-medium">{info.label}</p>
-                    <p className="text-white font-semibold text-lg">{info.value}</p>
-                    <p className="text-gray-500 text-sm">{info.description}</p>
+                    <p className="font-display text-xl font-bold text-os-text">{item.label}</p>
+                    <p className="mt-1 flex items-center gap-2 text-lg text-os-muted">
+                      {item.online && (
+                        <span className="h-3 w-3 rounded-full bg-emerald-400 shadow-[0_0_18px_rgba(52,211,153,0.85)]" />
+                      )}
+                      {value}
+                    </p>
                   </div>
+                </div>
+              );
+
+              return href ? (
+                <a key={item.label} href={href} className="block">
+                  {card}
                 </a>
-              ))}
-            </div>
+              ) : (
+                <div key={item.label}>{card}</div>
+              );
+            })}
+          </div>
 
-            <div className="p-6 bg-gradient-to-br from-green-500/10 to-blue-500/10 backdrop-blur-sm rounded-xl border border-green-500/30">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
-                <span className="text-green-400 font-semibold">Available for new projects</span>
-              </div>
-              <p className="text-gray-400 text-sm">
-                Currently accepting new client work for Q2 2024. 
-                Response time: Usually within 24 hours.
-              </p>
-            </div>
+          <div className="mt-8 h-px w-full max-w-md bg-white/10" />
 
-            {/* Interactive 3D Model Container */}
-            <div ref={mapRef} className="h-64 bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm rounded-xl border border-gray-700/50 overflow-hidden relative">
-              <div id="contact-threejs" className="w-full h-full">
-                {/* Linked the Ref here */}
-                <canvas ref={canvasRef} id="contact-canvas" className="w-full h-full"></canvas>
-              </div>
+          <div className="mt-6">
+            <p className="font-display text-lg font-bold text-os-text">Follow Me</p>
+
+            <div className="mt-5 flex flex-wrap gap-5">
+              {socialItems.map((item) => {
+                const Icon = socialIconMap[item.label] ?? Mail;
+
+                return (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    target={item.href.startsWith('mailto:') ? undefined : '_blank'}
+                    rel={item.href.startsWith('mailto:') ? undefined : 'noreferrer'}
+                    aria-label={item.label}
+                    className="grid h-16 w-16 place-items-center rounded-2xl border border-white/10 bg-white/[0.045] text-os-text shadow-glass-soft backdrop-blur-xl transition hover:-translate-y-1 hover:border-os-cyan/45 hover:bg-os-cyan/10 hover:text-os-cyan hover:shadow-[0_0_35px_rgba(34,211,238,0.2)]"
+                  >
+                    <Icon className="h-8 w-8" strokeWidth={1.8} aria-hidden="true" />
+                  </a>
+                );
+              })}
             </div>
           </div>
-          
-          <div className="lg:col-span-3">
-            <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <label htmlFor="name" className="block text-white font-medium mb-2">
-                    Full Name *
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:border-blue-500 focus:outline-none transition-colors"
-                    placeholder="Yogesh Khinchi"
-                  />
-                </div>
-                
-                <div>
-                  <label htmlFor="email" className="block text-white font-medium mb-2">
-                    Email Address *
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:border-blue-500 focus:outline-none transition-colors"
-                    placeholder="yogeshkhinchi123@gmail.com"
-                  />
-                </div>
-              </div>
+        </div>
 
-              <div>
-                <label htmlFor="subject" className="block text-white font-medium mb-2">
-                  Project Subject *
-                </label>
+        <div className="relative overflow-hidden rounded-[1.65rem] border border-os-violet/35 bg-white/[0.06] p-6 shadow-[0_0_65px_rgba(139,92,246,0.12)] backdrop-blur-md sm:p-8">
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/[0.08] via-transparent to-transparent" />
+          <div className="pointer-events-none absolute -right-24 -top-24 h-64 w-64 rounded-full bg-os-cyan/10 blur-3xl" />
+          <div className="pointer-events-none absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-os-violet/10 blur-3xl" />
+
+          <form onSubmit={handleSubmit} className="relative space-y-6">
+            <p className="font-mono text-sm font-bold uppercase tracking-[0.24em] text-os-violet">
+              Send a Message
+            </p>
+
+            <div>
+              <label htmlFor="name" className="mb-3 block text-lg font-bold text-os-text">
+                Your Name
+              </label>
+              <div className="relative">
+                <User className="absolute left-5 top-1/2 h-6 w-6 -translate-y-1/2 text-os-violet" aria-hidden="true" />
                 <input
-                  type="text"
-                  id="subject"
-                  name="subject"
-                  value={formData.subject}
+                  id="name"
+                  name="name"
+                  value={formData.name}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:border-blue-500 focus:outline-none transition-colors"
-                  placeholder="Website Development Project"
+                  className={inputBaseClasses}
+                  placeholder="Enter your name"
                 />
               </div>
+            </div>
 
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <label htmlFor="budget" className="block text-white font-medium mb-2">
-                    <Calendar className="w-4 h-4 inline mr-2" />
-                    Project Budget
-                  </label>
-                  <select
-                    id="budget"
-                    name="budget"
-                    value={formData.budget}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-lg text-white focus:border-blue-500 focus:outline-none transition-colors"
-                  >
-                    <option value="">Select budget range</option>
-                    {budgetRanges.map((range) => (
-                      <option key={range} value={range}>{range}</option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label htmlFor="timeline" className="block text-white font-medium mb-2">
-                    <Clock className="w-4 h-4 inline mr-2" />
-                    Timeline
-                  </label>
-                  <select
-                    id="timeline"
-                    name="timeline"
-                    value={formData.timeline}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-lg text-white focus:border-blue-500 focus:outline-none transition-colors"
-                  >
-                    <option value="">Select timeline</option>
-                    {timelineOptions.map((option) => (
-                      <option key={option} value={option}>{option}</option>
-                    ))}
-                  </select>
-                </div>
+            <div>
+              <label htmlFor="email" className="mb-3 block text-lg font-bold text-os-text">
+                Email Address
+              </label>
+              <div className="relative">
+                <Mail className="absolute left-5 top-1/2 h-6 w-6 -translate-y-1/2 text-os-violet" aria-hidden="true" />
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  className={inputBaseClasses}
+                  placeholder="Enter your email"
+                />
               </div>
-              
-              <div>
-                <label htmlFor="message" className="block text-white font-medium mb-2">
-                  Project Details *
-                </label>
+            </div>
+
+            <div>
+              <label htmlFor="message" className="mb-3 block text-lg font-bold text-os-text">
+                Your Message
+              </label>
+              <div className="relative">
+                <Pencil className="absolute left-5 top-6 h-6 w-6 text-os-violet" aria-hidden="true" />
                 <textarea
                   id="message"
                   name="message"
@@ -307,61 +243,58 @@ const Contact: React.FC = () => {
                   onChange={handleChange}
                   required
                   rows={6}
-                  className="w-full px-4 py-3 bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:border-blue-500 focus:outline-none transition-colors resize-none"
-                  placeholder="Tell me about your project, goals, target audience, and any specific requirements..."
+                  className={`${inputBaseClasses} min-h-40 resize-none pt-5`}
+                  placeholder="Write your message here..."
                 />
               </div>
-              
-              <button
-                type="submit"
-                disabled={isSubmitting || isSubmitted}
-                className={`w-full px-8 py-4 rounded-lg font-semibold transition-all duration-300 transform flex items-center justify-center gap-3 ${
-                  isSubmitted 
-                    ? 'bg-green-500 text-white' 
-                    : 'bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:shadow-2xl hover:shadow-blue-500/25 hover:scale-105'
-                } ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
-              >
-                {isSubmitting ? (
-                  <>
-                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                    <span>Sending Message...</span>
-                  </>
-                ) : isSubmitted ? (
-                  <>
-                    <CheckCircle className="w-5 h-5" />
-                    <span>Message Sent Successfully!</span>
-                  </>
-                ) : (
-                  <>
-                    <Send className="w-5 h-5" />
-                    <span>Send Message</span>
-                  </>
-                )}
-              </button>
-            </form>
-
-            <div className="mt-8 p-6 bg-gradient-to-br from-gray-800/30 to-gray-900/30 backdrop-blur-sm rounded-xl border border-gray-700/30">
-              <h4 className="text-white font-semibold mb-3">What happens next?</h4>
-              <div className="space-y-2 text-gray-400 text-sm">
-                <p>• I'll review your project details within 24 hours</p>
-                <p>• We'll schedule a discovery call to discuss your needs</p>
-                <p>• I'll provide a detailed proposal with timeline and pricing</p>
-                <p>• Upon agreement, we'll kick off your project!</p>
-              </div>
             </div>
-          </div>
-        </div>
-      </div>
 
-      <svg className="absolute inset-0 w-full h-full opacity-5" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <pattern id="waves" width="100" height="20" patternUnits="userSpaceOnUse">
-            <path d="M0 10 Q25 0 50 10 T100 10" fill="none" stroke="currentColor" strokeWidth="1"/>
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#waves)" />
-      </svg>
-    </section>
+            <button
+              type="submit"
+              className="inline-flex w-full items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-blue-600 via-os-cyan to-fuchsia-500 px-7 py-4 font-display text-lg font-bold text-white shadow-[0_0_40px_rgba(139,92,246,0.38)] transition hover:-translate-y-1 hover:shadow-[0_0_55px_rgba(34,211,238,0.28)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-os-cyan"
+            >
+              {isSubmitted ? (
+                <>
+                  <CheckCircle2 className="h-6 w-6" aria-hidden="true" />
+                  Request noted locally
+                </>
+              ) : (
+                <>
+                  <Send className="h-6 w-6" aria-hidden="true" />
+                  Send Message
+                </>
+              )}
+            </button>
+
+            <p className="flex items-center justify-center gap-2 text-sm text-os-muted">
+              <LockKeyhole className="h-4 w-4" aria-hidden="true" />
+              Your information is safe with me.
+            </p>
+
+            {isSubmitted && (
+              <div className="rounded-2xl border border-emerald-400/25 bg-emerald-400/10 p-4 text-sm leading-6 text-emerald-100">
+                This demo form does not send data yet. Please email me directly at{' '}
+                <a href={`mailto:${siteProfile.email}`} className="font-semibold underline">
+                  {siteProfile.email}
+                </a>
+                .
+              </div>
+            )}
+          </form>
+        </div>
+
+        <aside className="relative hidden min-h-[36rem] lg:block">
+          <div className="pointer-events-none absolute inset-0">
+            <div className="absolute left-1/2 top-[52%] h-80 w-80 -translate-x-1/2 -translate-y-1/2 rounded-full bg-os-cyan/15 blur-3xl" />
+            <div className="absolute bottom-16 left-1/2 h-24 w-[25rem] -translate-x-1/2 rounded-[50%] border border-os-violet/40 bg-os-violet/10 shadow-[0_0_80px_rgba(139,92,246,0.3)]" />
+          </div>
+
+          <div className="relative z-10 mx-auto h-[34rem] max-w-[34rem]">
+            <ContactGlobeVisual />
+          </div>
+        </aside>
+      </div>
+    </SectionShell>
   );
 };
 

@@ -1,338 +1,295 @@
-import React, { useEffect, useRef } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { GraduationCap, Calendar, MapPin, Award, BookOpen, Users, Trophy, Star } from 'lucide-react';
+// import React from 'react';
+// import { Calendar, CheckCircle2, GraduationCap, MapPin, Rocket, Sparkles } from 'lucide-react';
+// import { journeyItems, journeyStats } from '../data/education';
+// import { SectionShell } from './layout/SectionShell';
+// import { GlassCard } from './ui/GlassCard';
+// import { RocketLaunchVisual } from './ui/ReferenceVisuals';
 
-gsap.registerPlugin(ScrollTrigger);
+// const Education: React.FC = () => {
+//   return (
+//     <SectionShell
+//       id="education"
+//       className="bg-transparent py-24"
+//       eyebrow="My Journey"
+//       title={<>Education <span className="bg-gradient-to-r from-os-cyan to-os-violet bg-clip-text text-transparent">& Journey</span></>}
+//       description="A timeline of my key milestones, projects, and continuous growth as a developer and problem solver."
+//     >
+//       <div className="grid gap-12 lg:grid-cols-[minmax(0,0.95fr)_minmax(24rem,0.75fr)]">
+//         <div className="relative">
+//           <div className="absolute bottom-0 left-5 top-2 hidden w-px bg-gradient-to-b from-os-cyan via-os-violet to-transparent md:block" />
 
-const Education: React.FC = () => {
-  const sectionRef = useRef<HTMLElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const timelineRef = useRef<HTMLDivElement>(null);
-  const achievementsRef = useRef<HTMLDivElement>(null);
-  const skillsRef = useRef<HTMLDivElement>(null);
+//           <div className="space-y-6">
+//             {journeyItems.map((item, index) => (
+//               <div key={item.title} className="relative md:pl-14">
+//                 <div className="absolute left-0 top-6 hidden h-10 w-10 place-items-center rounded-2xl border border-os-cyan/30 bg-os-cyan/10 text-os-cyan shadow-glow md:grid">
+//                   {index === 0 ? (
+//                     <GraduationCap className="h-5 w-5" aria-hidden="true" />
+//                   ) : index === 1 ? (
+//                     <Sparkles className="h-5 w-5" aria-hidden="true" />
+//                   ) : (
+//                     <Rocket className="h-5 w-5" aria-hidden="true" />
+//                   )}
+//                 </div>
 
-  useEffect(() => {
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: sectionRef.current,
-        start: "top 80%",
-        end: "bottom 20%",
-        toggleActions: "play none none reverse"
-      }
-    });
+//                 <GlassCard intensity={index === 0 ? 'strong' : 'soft'} className="p-5 sm:p-6">
+//                   <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+//                     <div>
+//                       <p className="font-mono text-xs font-semibold uppercase tracking-[0.24em] text-os-cyan">
+//                         {item.period}
+//                       </p>
+//                       <h3 className="mt-3 font-display text-2xl font-bold tracking-tight text-os-text">
+//                         {item.title}
+//                       </h3>
+//                       <p className="mt-2 text-base font-semibold text-os-muted">
+//                         {item.institution}
+//                       </p>
+//                     </div>
+//                     <div className="flex flex-wrap gap-2 text-xs text-os-muted sm:justify-end">
+//                       <span className="inline-flex items-center gap-2 rounded-full border border-os-line bg-white/[0.045] px-3 py-1.5">
+//                         <MapPin className="h-3.5 w-3.5 text-os-cyan" aria-hidden="true" />
+//                         {item.location}
+//                       </span>
+//                       <span className="inline-flex items-center gap-2 rounded-full border border-os-line bg-white/[0.045] px-3 py-1.5">
+//                         <Calendar className="h-3.5 w-3.5 text-os-cyan" aria-hidden="true" />
+//                         {item.period}
+//                       </span>
+//                     </div>
+//                   </div>
 
-    tl.fromTo(titleRef.current,
-      { y: 50, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1, ease: "power3.out" }
-    )
-    .fromTo(timelineRef.current ? Array.from(timelineRef.current.children) : [],
-      { x: -100, opacity: 0 },
-      { x: 0, opacity: 1, duration: 0.8, stagger: 0.2, ease: "power3.out" },
-      "-=0.6"
-    )
-    .fromTo(achievementsRef.current ? Array.from(achievementsRef.current.children) : [],
-      { y: 40, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.6, stagger: 0.1, ease: "power3.out" },
-      "-=0.4"
-    )
-    .fromTo(skillsRef.current ? Array.from(skillsRef.current.children) : [],
-      { scale: 0, opacity: 0 },
-      { scale: 1, opacity: 1, duration: 0.5, stagger: 0.1, ease: "back.out(1.7)" },
-      "-=0.2"
-    );
+//                   <p className="mt-5 text-sm leading-7 text-os-muted">{item.description}</p>
 
-    // Enhanced hover effects for education cards
-    const educationCards = document.querySelectorAll('.education-card');
-    educationCards.forEach((card) => {
-      const icon = card.querySelector('.education-icon');
-      const timeline = card.querySelector('.timeline-dot');
-      
-      card.addEventListener('mouseenter', () => {
-        gsap.to(card, {
-          scale: 1.05,
-          y: -10,
-          duration: 0.3,
-          ease: "power2.out"
-        });
-        
-        gsap.to(icon, {
-          scale: 1.2,
-          rotation: 360,
-          duration: 0.5,
-          ease: "back.out(1.7)"
-        });
+//                   <div className="mt-5 grid gap-2">
+//                     {item.highlights.map((highlight) => (
+//                       <div key={highlight} className="flex gap-2 text-sm leading-6 text-os-muted">
+//                         <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-os-cyan" aria-hidden="true" />
+//                         <span>{highlight}</span>
+//                       </div>
+//                     ))}
+//                   </div>
 
-        gsap.to(timeline, {
-          scale: 1.5,
-          duration: 0.3,
-          ease: "power2.out"
-        });
-      });
+//                   <div className="mt-5 flex flex-wrap gap-2">
+//                     {item.tags.map((tag) => (
+//                       <span
+//                         key={tag}
+//                         className="rounded-full border border-os-line bg-white/[0.045] px-3 py-1.5 text-xs font-medium text-os-muted"
+//                       >
+//                         {tag}
+//                       </span>
+//                     ))}
+//                   </div>
+//                 </GlassCard>
+//               </div>
+//             ))}
+//           </div>
+//         </div>
 
-      card.addEventListener('mouseleave', () => {
-        gsap.to(card, {
-          scale: 1,
-          y: 0,
-          duration: 0.3,
-          ease: "power2.out"
-        });
-        
-        gsap.to(icon, {
-          scale: 1,
-          rotation: 0,
-          duration: 0.3,
-          ease: "power2.out"
-        });
+//         <aside className="lg:sticky lg:top-28 lg:self-start">
+//           <RocketLaunchVisual />
+//           <GlassCard className="mt-5 p-5">
+//             <p className="font-display text-lg font-semibold text-os-text">
+//               Growth trajectory
+//             </p>
+//             <p className="mt-3 text-sm leading-6 text-os-muted">
+//               The focus is simple: keep learning computer science fundamentals, keep shipping useful projects, and keep improving product quality.
+//             </p>
+//           </GlassCard>
 
-        gsap.to(timeline, {
-          scale: 1,
-          duration: 0.3,
-          ease: "power2.out"
-        });
-      });
-    });
-  }, []);
+//           <div className="mt-5 grid gap-3">
+//             {journeyStats.map((stat) => (
+//               <GlassCard key={stat.label} className="p-4">
+//                 <div className="font-display text-2xl font-bold text-os-text">{stat.value}</div>
+//                 <div className="mt-1 text-xs uppercase tracking-[0.16em] text-os-muted">{stat.label}</div>
+//               </GlassCard>
+//             ))}
+//           </div>
+//         </aside>
+//       </div>
+//     </SectionShell>
+//   );
+// };
 
-  const education = [
-    {
-      degree: "Currently pursuing my B.Tech in Computer Science and Engineering from IIIT Surat ",
-      institution: "Not available yet",
-      location: "null",
-      period: "null",
-      gpa: "null",
-      description: "Null",
-      achievements: [
-        "null"
-      ],
-      courses: ["NUll"],
-      icon: GraduationCap,
-      color: "from-blue-500 to-purple-600"
-    },
-  
-    {
-      degree: "Bachelor of Technology in Computer Science",
-      institution: "Indian Institute of Information Technology (IIIT) Surat",
-      location: "Surat, (Gujarat) India",
-      period: "2024 - 2028",
-      gpa: "8.2/10.0",
-      description: "Comprehensive computer science education with focus on software engineering, algorithms, and system design. Active member of coding club and hackathon organizer.",
-      achievements: [
-        "10+ College projects done",
-        "Member of Computer Science Society",
-        "participated in 3+ national hackathons",
-        "Google Summer of Code participant"
-      ],
-      courses: ["Data Structures", "Operating Systems", "Database Systems", "Software Engineering", "Computer Networks" , "Economics and Business Management" , "Programming for Problem Solving"],
-      icon: BookOpen,
-      color: "from-green-500 to-blue-500"
-    },
-    {
-      degree: "Higher Secondary Certificate",
-      institution: "A.D Daga Public School",
-      location: "palii,(Rajasthan) India",
-      period: "2008 - 2022",
-      gpa: "79.87%",
-      description: "Focused on Mathematics, Physics, and Computer Science. Developed early passion for programming and participated in various science exhibitions.",
-      achievements: [
-        "Topper in the physics and chemistry",
-        "Good in the sports as well as in the academics",
-        "Scored 7.56 CGPA in the 10th Boards exam ",
-        "Scored 8.67 CGPA in the 12th Boards exam "
-      ],
-      courses: ["Mathematics", "Physics", "English", "Hindi" , "Sanskrit" , "Social Science"],
-      icon: Award,
-      color: "from-orange-500 to-red-500"
-    }
-  ];
+// export default Education;
 
-  const certifications = [
-    { name: "JavaScript Course Completion Certificate", issuer: "W3School", year: "2025" },
-   { name: "React Course Completion Certificate", issuer: "W3School", year: "2025" },
-    // { name: "React Advanced Certification", issuer: "Meta", year: "2022" },
-    // { name: "Machine Learning Specialization", issuer: "Stanford Online", year: "2021" }
-    
-  ];
 
-  const skills = [
-    { category: "Programming", items: ["JavaScript", "Python", "C", "C++", "CSS"] },
-    { category: "Frameworks", items: ["React", "Node.js", "TailwindCss", "Three.js" ,"Express.js"] },
-    { category: "Databases", items: [ "MongoDB", "MySQL"] },
-    // { category: "Cloud & DevOps", items: ["AWS", "Docker", "Kubernetes", "CI/CD", "Terraform"] }
-  ];
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import {
+  Calendar,
+  Code2,
+  GraduationCap,
+  MapPin,
+  Rocket,
+  Search,
+  Sparkles,
+  type LucideIcon,
+} from 'lucide-react';
+import { journeyItems } from '../data/education';
+import { SectionShell } from './layout/SectionShell';
+
+const ROCKET_IMAGE_SRC = '/rocket.png';
+
+const journeyIcons: LucideIcon[] = [GraduationCap, Code2, Search, Rocket];
+
+const Education = () => {
   return (
-    <section ref={sectionRef} className="py-20 px-4 bg-gradient-to-b from-black via-gray-900 to-slate-900 relative overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute inset-0">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl"></div>
-      </div>
+    <SectionShell
+      id="education"
+      className="relative bg-transparent py-24 sm:py-28"
+      eyebrow="My Journey"
+      title={
+        <>
+          Education{' '}
+          <span className="bg-gradient-to-r from-os-cyan via-blue-400 to-os-violet bg-clip-text text-transparent">
+            & Journey
+          </span>
+        </>
+      }
+      description="A timeline of my key milestones, projects, and continuous growth as a developer and problem solver."
+    >
+      <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[minmax(0,1fr)_26rem] xl:grid-cols-[minmax(0,1fr)_30rem]">
+        <div className="relative">
+          <div className="absolute bottom-8 left-7 top-8 hidden w-[3px] rounded-full bg-gradient-to-b from-os-violet via-os-cyan to-os-violet shadow-[0_0_28px_rgba(139,92,246,0.75)] md:block" />
 
-      {/* Three.js Canvas for Education Scene */}
-      <div id="education-threejs" className="absolute inset-0 z-0">
-        <canvas id="education-canvas" className="w-full h-full opacity-30"></canvas>
-      </div>
+          <div className="space-y-5">
+            {journeyItems.map((item, index) => {
+              const Icon = journeyIcons[index % journeyIcons.length];
 
-      <div className="max-w-7xl mx-auto relative z-10">
-        <h2 
-          ref={titleRef}
-          className="text-4xl md:text-6xl font-bold text-center mb-16 text-white"
-        >
-          My <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600">Education</span>
-        </h2>
-
-        {/* Education Timeline */}
-        <div ref={timelineRef} className="relative mb-20">
-          {/* Timeline Line */}
-          <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-500 via-purple-500 to-pink-500 transform md:-translate-x-1/2"></div>
-          
-          {education.map((edu, index) => (
-            <div 
-              key={index}
-              className={`education-card relative flex items-center mb-16 ${
-                index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
-              }`}
-            >
-              {/* Timeline Dot */}
-              <div className={`timeline-dot absolute left-8 md:left-1/2 w-6 h-6 bg-gradient-to-r ${edu.color} rounded-full border-4 border-gray-900 transform md:-translate-x-1/2 z-10`}>
-                <div className="absolute inset-0 bg-white/20 rounded-full animate-ping"></div>
-              </div>
-
-              {/* Content Card */}
-              <div className={`flex-1 ml-20 md:ml-0 ${index % 2 === 0 ? 'md:pr-16' : 'md:pl-16'}`}>
-                <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm rounded-2xl p-8 border border-gray-700/50 hover:border-blue-500/50 transition-all duration-500">
-                  <div className="flex items-start gap-4 mb-6">
-                    <div className={`education-icon p-4 bg-gradient-to-r ${edu.color} rounded-xl`}>
-                      <edu.icon className="w-8 h-8 text-white" />
+              return (
+                <article key={item.title} className="relative md:pl-24">
+                  <div className="absolute left-0 top-1/2 hidden -translate-y-1/2 md:block">
+                    <div className="relative grid h-14 w-14 place-items-center rounded-full border border-os-cyan/50 bg-[#071020] text-os-cyan shadow-[0_0_26px_rgba(34,211,238,0.5)]">
+                      <div className="absolute inset-[-7px] rounded-full border border-os-violet/45 shadow-[0_0_26px_rgba(139,92,246,0.5)]" />
+                      <Icon className="relative h-6 w-6" aria-hidden="true" />
                     </div>
-                    <div className="flex-1">
-                      <h3 className="text-2xl font-bold text-white mb-2">{edu.degree}</h3>
-                      <p className="text-xl text-blue-300 font-semibold mb-2">{edu.institution}</p>
-                      <div className="flex flex-wrap gap-4 text-gray-400 text-sm mb-4">
-                        <span className="flex items-center gap-1">
-                          <MapPin className="w-4 h-4" />
-                          {edu.location}
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <Calendar className="w-4 h-4" />
-                          {edu.period}
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <Star className="w-4 h-4 text-yellow-400" />
-                          GPA: {edu.gpa}
-                        </span>
+                    <div className="absolute left-14 top-1/2 h-px w-10 -translate-y-1/2 bg-gradient-to-r from-os-cyan to-transparent" />
+                  </div>
+
+                  <div className="group relative overflow-hidden rounded-[1.7rem] border border-os-violet/35 bg-white/[0.06] p-5 shadow-[0_0_48px_rgba(59,130,246,0.08)] backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:border-os-cyan/45 hover:bg-white/[0.085] hover:shadow-[0_0_58px_rgba(34,211,238,0.16)] sm:p-6">
+                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/[0.08] via-transparent to-transparent" />
+                    <div className="pointer-events-none absolute -right-24 -top-24 h-48 w-48 rounded-full bg-os-cyan/10 blur-3xl opacity-0 transition duration-500 group-hover:opacity-100" />
+
+                    <div className="relative grid gap-5 lg:grid-cols-[7rem_minmax(0,1fr)] lg:items-start">
+                      <div>
+                        <div className="flex items-center gap-3">
+                          <span className="font-display text-3xl font-black tracking-tight text-os-cyan">
+                            {item.period.split(' ')[0]}
+                          </span>
+                          {index === 0 && (
+                            <span className="rounded-full border border-os-violet/30 bg-os-violet/10 px-3 py-1 text-xs font-semibold text-os-violet">
+                              Present
+                            </span>
+                          )}
+                        </div>
+
+                        <div className="mt-3 flex flex-wrap gap-2 text-xs text-os-muted lg:hidden">
+                          <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.045] px-3 py-1.5">
+                            <MapPin className="h-3.5 w-3.5 text-os-cyan" aria-hidden="true" />
+                            {item.location}
+                          </span>
+                          <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.045] px-3 py-1.5">
+                            <Calendar className="h-3.5 w-3.5 text-os-cyan" aria-hidden="true" />
+                            {item.period}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-5">
+                        <div className="grid h-16 w-16 shrink-0 place-items-center rounded-full border border-os-cyan/30 bg-os-cyan/10 text-os-cyan shadow-[0_0_28px_rgba(34,211,238,0.22)]">
+                          <Icon className="h-8 w-8" aria-hidden="true" />
+                        </div>
+
+                        <div>
+                          <h3 className="font-display text-2xl font-bold leading-tight text-os-text">
+                            {item.title}
+                          </h3>
+                          <p className="mt-1 text-lg font-semibold text-blue-300">
+                            {item.institution}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="border-white/10 lg:col-span-2">
+                        <p className="text-base leading-7 text-os-muted">{item.description}</p>
+
+                        <div className="mt-4 hidden flex-wrap gap-2 lg:flex">
+                          <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.045] px-3 py-1.5 text-xs text-os-muted">
+                            <MapPin className="h-3.5 w-3.5 text-os-cyan" aria-hidden="true" />
+                            {item.location}
+                          </span>
+                          <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.045] px-3 py-1.5 text-xs text-os-muted">
+                            <Calendar className="h-3.5 w-3.5 text-os-cyan" aria-hidden="true" />
+                            {item.period}
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </div>
-
-                  <p className="text-gray-300 mb-6 leading-relaxed">{edu.description}</p>
-
-                  {/* Achievements */}
-                  <div className="mb-6">
-                    <h4 className="text-lg font-semibold text-white mb-3 flex items-center gap-2">
-                      <Trophy className="w-5 h-5 text-yellow-400" />
-                      Key Achievements
-                    </h4>
-                    <div className="grid md:grid-cols-2 gap-2">
-                      {edu.achievements.map((achievement, achIndex) => (
-                        <div key={achIndex} className="flex items-center gap-2 text-gray-300">
-                          <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
-                          <span className="text-sm">{achievement}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Relevant Courses */}
-                  <div>
-                    <h4 className="text-lg font-semibold text-white mb-3 flex items-center gap-2">
-                      <BookOpen className="w-5 h-5 text-green-400" />
-                      Relevant Courses
-                    </h4>
-                    <div className="flex flex-wrap gap-2">
-                      {edu.courses.map((course, courseIndex) => (
-                        <span 
-                          key={courseIndex}
-                          className="px-3 py-1 bg-blue-500/20 text-blue-300 rounded-full text-sm border border-blue-500/30 hover:bg-blue-500/30 transition-colors"
-                        >
-                          {course}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Certifications & Skills */}
-        <div className="grid lg:grid-cols-2 gap-12">
-          {/* Certifications */}
-          <div ref={achievementsRef}>
-            <h3 className="text-3xl font-bold text-white mb-8 flex items-center gap-3">
-              <Award className="w-8 h-8 text-yellow-400" />
-              Certifications
-            </h3>
-            <div className="space-y-4">
-              {certifications.map((cert, index) => (
-                <div 
-                  key={index}
-                  className="p-6 bg-gradient-to-br from-gray-800/30 to-gray-900/30 backdrop-blur-sm rounded-xl border border-gray-700/30 hover:border-yellow-500/50 transition-all duration-300 hover:scale-105"
-                >
-                  <h4 className="text-lg font-semibold text-white mb-2">{cert.name}</h4>
-                  <p className="text-gray-400 mb-1">{cert.issuer}</p>
-                  <p className="text-sm text-yellow-400 font-medium">{cert.year}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Technical Skills */}
-          <div ref={skillsRef}>
-            <h3 className="text-3xl font-bold text-white mb-8 flex items-center gap-3">
-              <Users className="w-8 h-8 text-purple-400" />
-              Technical Skills
-            </h3>
-            <div className="space-y-6">
-              {skills.map((skillGroup, index) => (
-                <div 
-                  key={index}
-                  className="p-6 bg-gradient-to-br from-gray-800/30 to-gray-900/30 backdrop-blur-sm rounded-xl border border-gray-700/30 hover:border-purple-500/50 transition-all duration-300"
-                >
-                  <h4 className="text-lg font-semibold text-white mb-4">{skillGroup.category}</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {skillGroup.items.map((skill, skillIndex) => (
-                      <span 
-                        key={skillIndex}
-                        className="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full text-sm border border-purple-500/30 hover:bg-purple-500/30 transition-all duration-300 hover:scale-105"
-                      >
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
+                </article>
+              );
+            })}
           </div>
         </div>
+
+        <aside className="relative hidden min-h-[42rem] lg:block">
+          <div className="pointer-events-none absolute inset-0">
+            <div className="absolute bottom-20 left-1/2 h-36 w-80 -translate-x-1/2 rounded-[50%] bg-os-violet/20 blur-3xl" />
+            <div className="absolute bottom-8 left-1/2 h-20 w-[22rem] -translate-x-1/2 rounded-[50%] border border-os-violet/40 bg-os-violet/10 shadow-[0_0_80px_rgba(139,92,246,0.3)]" />
+            <div className="absolute right-10 top-24 h-1.5 w-1.5 rounded-full bg-os-cyan shadow-[0_0_26px_8px_rgba(34,211,238,0.8)]" />
+            <div className="absolute left-16 top-36 h-1 w-1 rounded-full bg-os-violet shadow-[0_0_24px_7px_rgba(139,92,246,0.8)]" />
+          </div>
+
+          <img
+            src={ROCKET_IMAGE_SRC}
+            alt="Neon rocket representing growth journey"
+            className="relative z-10 mx-auto h-[39rem] w-auto object-contain drop-shadow-[0_0_45px_rgba(139,92,246,0.45)]"
+            loading="lazy"
+          />
+
+          <div className="absolute bottom-10 left-1/2 z-0 h-28 w-72 -translate-x-1/2 rounded-[50%] bg-gradient-to-r from-blue-600/30 via-os-violet/40 to-os-cyan/30 blur-2xl" />
+        </aside>
       </div>
 
-      {/* Enhanced SVG Background Pattern */}
-      <svg className="absolute inset-0 w-full h-full opacity-5" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <pattern id="education-pattern" width="80" height="80" patternUnits="userSpaceOnUse">
-            <circle cx="40" cy="40" r="2" fill="currentColor"/>
-            <circle cx="20" cy="20" r="1" fill="currentColor"/>
-            <circle cx="60" cy="60" r="1" fill="currentColor"/>
-            <circle cx="20" cy="60" r="1" fill="currentColor"/>
-            <circle cx="60" cy="20" r="1" fill="currentColor"/>
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#education-pattern)" />
-      </svg>
-    </section>
+      <div className="mx-auto mt-10 grid max-w-6xl gap-4 md:grid-cols-4">
+        {[
+          ['Strong Foundation', 'Computer science fundamentals'],
+          ['Real Products', 'Shipping useful full-stack builds'],
+          ['Creative Growth', 'Exploring UI, 3D, and AI tools'],
+          ['Always Improving', 'Learning through practical work'],
+        ].map(([title, subtitle], index) => {
+          const Icon = [GraduationCap, Sparkles, Rocket, Calendar][index];
+
+          return (
+            <div
+              key={title}
+              className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.045] px-4 py-4 shadow-glass-soft backdrop-blur-xl"
+            >
+              <div className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl border border-os-cyan/25 bg-os-cyan/10 text-os-cyan shadow-[0_0_22px_rgba(34,211,238,0.22)]">
+                <Icon className="h-6 w-6" aria-hidden="true" />
+              </div>
+              <span>
+                <span className="block font-semibold text-os-text">{title}</span>
+                <span className="block text-xs text-os-muted">{subtitle}</span>
+              </span>
+            </div>
+          );
+        })}
+      </div>
+    </SectionShell>
   );
 };
 

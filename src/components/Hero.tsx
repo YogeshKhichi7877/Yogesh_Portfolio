@@ -1,240 +1,230 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
+import {
+  ArrowUpRight,
+  Award,
+  Braces,
+  Building2,
+  Clock3,
+  Code2,
+  Github,
+  Hexagon,
+  Instagram,
+  Linkedin,
+  Mail,
+  Send,
+  Server,
+  Users,
+} from 'lucide-react';
 import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Github, Linkedin, Mail, Download } from 'lucide-react';
-import Hero3D from './Hero3D';
+import { Button } from './ui/Button';
+import { HeroLaptopScene } from './three/HeroLaptopScene';
+import { socialLinks, trustStats } from '../lib/site';
 
-gsap.registerPlugin(ScrollTrigger);
+const socialIconMap = {
+  GitHub: Github,
+  LinkedIn: Linkedin,
+  Email: Mail,
+  Instagram,
+};
+
+const techBadges = [
+  { label: 'React', icon: Braces, className: 'left-[15%] top-[14%]' },
+  { label: 'Node.js', icon: Server, className: 'right-[15%] top-[8%]' },
+  { label: 'JavaScript', icon: Code2, className: 'right-[3%] top-[36%]' },
+  { label: 'TypeScript', icon: Code2, className: 'right-[14%] bottom-[20%]' },
+  { label: 'Three.js', icon: Hexagon, className: 'left-[8%] bottom-[28%]' },
+];
+
+const statIcons = [Award, Users, Clock3, Award, Building2];
+
+const HeroModelStage = () => (
+  <div
+    className="relative isolate mx-auto min-h-[29rem] w-full max-w-[53rem] overflow-visible sm:min-h-[36rem] lg:min-h-[43rem]"
+    role="img"
+    aria-label="3D laptop developer workstation with orbiting technology badges"
+  >
+    <div className="pointer-events-none absolute left-1/2 top-[48%] h-[28rem] w-[92%] -translate-x-1/2 -translate-y-1/2 rotate-[-7deg] rounded-[50%] border border-os-cyan/40 shadow-[0_0_70px_rgba(34,211,238,0.2)]" />
+    <div className="pointer-events-none absolute left-1/2 top-[49%] h-[21rem] w-[72%] -translate-x-1/2 -translate-y-1/2 rotate-[8deg] rounded-[50%] border border-os-violet/45 shadow-[0_0_55px_rgba(139,92,246,0.12)]" />
+    <div className="pointer-events-none absolute left-1/2 top-[48%] h-[34rem] w-[34rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-os-cyan/10 blur-3xl" />
+    <div className="pointer-events-none absolute right-[8%] top-[15%] h-48 w-48 rounded-full bg-os-violet/15 blur-3xl" />
+
+    <div className="pointer-events-none absolute left-1/2 bottom-[4.5rem] h-[9rem] w-[92%] -translate-x-1/2 rounded-[50%] border border-os-violet/45 bg-os-violet/10 shadow-[0_0_95px_rgba(139,92,246,0.32)]" />
+    <div className="pointer-events-none absolute left-1/2 bottom-[6.8rem] h-10 w-[72%] -translate-x-1/2 rounded-[50%] border border-os-cyan/50 bg-os-cyan/10 shadow-[0_0_65px_rgba(56,189,248,0.3)]" />
+
+    <div className="absolute inset-x-[-3%] top-[6%] z-10 h-[25rem] sm:top-[4%] sm:h-[32rem] lg:top-[1%] lg:h-[39rem]">
+      <HeroLaptopScene />
+    </div>
+
+    {techBadges.map((badge, index) => (
+      <div
+        key={badge.label}
+        className={`absolute ${badge.className} z-20 hidden h-[5.4rem] w-[5.4rem] place-items-center rounded-2xl border border-white/12 bg-[#081124]/80 text-os-cyan shadow-[0_0_30px_rgba(34,211,238,0.16)] backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:border-os-cyan/45 sm:grid`}
+        style={{ animationDelay: `${index * 0.25}s` }}
+      >
+        <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-os-cyan/10 to-os-violet/10" />
+        <badge.icon className="relative h-7 w-7" aria-hidden="true" />
+        <span className="relative mt-1 font-display text-[11px] font-bold text-os-text">
+          {badge.label}
+        </span>
+      </div>
+    ))}
+
+    <div className="absolute right-[24%] top-[30%] z-20 hidden h-20 w-20 rotate-12 rounded-2xl border border-os-violet/35 bg-os-violet/10 shadow-[0_0_35px_rgba(139,92,246,0.25)] lg:block" />
+  </div>
+);
 
 const Hero = () => {
-  const heroRef = useRef<HTMLDivElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const subtitleRef = useRef<HTMLParagraphElement>(null);
-  const imageRef = useRef<HTMLDivElement>(null);
-  const ctaRef = useRef<HTMLDivElement>(null);
-  const socialRef = useRef<HTMLDivElement>(null);
-  const scrollIndicatorRef = useRef<HTMLDivElement>(null);
+  const copyRef = useRef<HTMLDivElement>(null);
+  const visualRef = useRef<HTMLDivElement>(null);
+  const statsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const tl = gsap.timeline();
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
 
-    // Hero entrance animation - Modernized
-    tl.fromTo(
-      imageRef.current,
-      { scale: 0.8, opacity: 0, filter: 'blur(10px)' },
-      { scale: 1, opacity: 1, filter: 'blur(0px)', duration: 1.5, ease: 'power4.out' }
-    )
+    const timeline = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+    timeline
       .fromTo(
-        titleRef.current,
-        { y: 50, opacity: 0, filter: 'blur(10px)' },
-        { y: 0, opacity: 1, filter: 'blur(0px)', duration: 1.2, ease: 'power3.out' },
-        '-=1'
+        copyRef.current?.children ?? [],
+        { y: 30, opacity: 0, filter: 'blur(10px)' },
+        { y: 0, opacity: 1, filter: 'blur(0px)', duration: 0.85, stagger: 0.08 },
       )
       .fromTo(
-        subtitleRef.current,
-        { y: 30, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1, ease: 'power3.out' },
-        '-=0.8'
+        visualRef.current,
+        { y: 34, opacity: 0, scale: 0.96 },
+        { y: 0, opacity: 1, scale: 1, duration: 1 },
+        '-=0.45',
       )
       .fromTo(
-        (ctaRef.current ? Array.from(ctaRef.current.children) : []),
-        { y: 20, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.8, stagger: 0.15, ease: 'power3.out' },
-        '-=0.6'
-      )
-      .fromTo(
-        (socialRef.current ? Array.from(socialRef.current.children) : []),
-        { y: 20, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.6, stagger: 0.1, ease: 'power3.out' },
-        '-=0.4'
-      )
-      .fromTo(
-        scrollIndicatorRef.current,
-        { y: 20, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' },
-        '-=0.2'
+        statsRef.current,
+        { y: 24, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.8 },
+        '-=0.45',
       );
 
-    // Parallax effect
-    gsap.to(heroRef.current, {
-      yPercent: -30,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: heroRef.current,
-        start: 'top bottom',
-        end: 'bottom top',
-        scrub: true,
-      },
-    });
-
-    // Floating animation for profile image
-    gsap.to(imageRef.current, {
-      y: -20,
-      duration: 3,
-      ease: 'power2.inOut',
-      yoyo: true,
-      repeat: -1,
-    });
+    return () => timeline.kill();
   }, []);
 
-  const handleButtonHover = (e: React.MouseEvent<HTMLButtonElement>) => {
-    gsap.to(e.currentTarget, {
-      scale: 1.05,
-      duration: 0.3,
-      ease: 'power2.out',
-    });
-  };
-
-  const handleButtonLeave = (e: React.MouseEvent<HTMLButtonElement>) => {
-    gsap.to(e.currentTarget, {
-      scale: 1,
-      duration: 0.3,
-      ease: 'power2.out',
-    });
-  };
-
-  const downloadResume = () => {
-    // Create an anchor element to download the PDF
-    const element = document.createElement('a');
-    element.href = '/Yogesh_Khinchi_Resume_v3.pdf';
-    element.download = 'Yogesh_Khinchi_Resume.pdf';
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
+  const scrollTo = (selector: string) => {
+    document.querySelector(selector)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   return (
     <section
-      ref={heroRef}
-      className="relative w-full min-h-screen flex items-center justify-center overflow-hidden bg-[#0a0514]"
+      id="home"
+      className="relative isolate min-h-screen overflow-hidden px-4 pb-10 pt-28 text-os-text sm:px-6 lg:px-8 lg:pt-32"
     >
-      {/* Three.js Canvas Container */}
-      <Hero3D />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_35%,rgba(34,211,238,0.13),transparent_32%),radial-gradient(circle_at_76%_34%,rgba(139,92,246,0.18),transparent_34%),radial-gradient(circle_at_52%_78%,rgba(59,130,246,0.08),transparent_28%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.035)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.035)_1px,transparent_1px)] bg-[size:72px_72px] opacity-10 [mask-image:radial-gradient(circle_at_center,black,transparent_76%)]" />
 
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0 z-10 pointer-events-none">
-        <div className="absolute top-20 left-20 w-72 h-72 bg-blue-500/10 rounded-full blur-[100px] animate-pulse"></div>
-        <div className="absolute bottom-20 right-20 w-96 h-96 bg-purple-600/10 rounded-full blur-[100px] animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-500/5 rounded-full blur-[120px]"></div>
-      </div>
+      <div className="relative z-10 mx-auto grid min-h-[calc(100vh-13rem)] w-full max-w-[92rem] items-center gap-8 lg:grid-cols-[minmax(0,0.72fr)_minmax(37rem,1.15fr)]">
+        <div ref={copyRef} className="max-w-2xl">
+          <p className="mb-4 font-display text-3xl font-bold text-os-text sm:text-4xl">
+            Hi, I&apos;m
+          </p>
 
-      {/* Content */}
-      <div className="relative z-20 w-full max-w-7xl mx-auto px-4 pt-32 pb-12 sm:pt-16 sm:py-16">
-        <div className="flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-16 w-full min-h-screen lg:min-h-auto pt-8 lg:pt-0">
-          {/* Profile Image */}
-          <div ref={imageRef} className="flex justify-center items-center order-1 lg:order-2 w-full md:w-auto">
-            <div className="relative flex justify-center items-center">
-              <div className="rounded-full overflow-hidden border-8 border-white shadow-2xl backdrop-blur-sm bg-gradient-to-br from-blue-500/20 to-purple-600/20 w-32 h-32 sm:w-48 sm:h-48 md:w-64 md:h-64 lg:w-80 lg:h-80 xl:w-96 xl:h-96 transition-all duration-300">
-                <img
-                   src="/portfolio .jpg"
-                   alt="YOGESH Khinchi - Creative Developer"
-                   className="w-full h-full object-cover"
-                />
-              </div>
-              {/* Decorative rings */}
-              <div className="absolute -inset-2 sm:-inset-4 rounded-full border-4 border-white animate-spin-slow shadow-[0_0_30px_rgba(56,189,248,0.5)]"></div>
-              <div className="absolute -inset-4 sm:-inset-8 rounded-full border border-purple-500/20 animate-spin-reverse"></div>
-            </div>
+          <h1 className="font-display text-6xl font-black leading-[0.92] tracking-tight text-os-text sm:text-7xl lg:text-[6.7rem]">
+            Yogesh
+            <span className="block bg-gradient-to-r from-os-cyan via-blue-400 to-os-violet bg-clip-text text-transparent">
+              Khinchi
+            </span>
+          </h1>
+
+          <div className="mt-6 inline-flex rounded-2xl border border-os-cyan/45 bg-os-bg/50 px-5 py-2 font-display text-base font-semibold text-os-text shadow-[0_0_32px_rgba(34,211,238,0.15)] backdrop-blur-xl sm:text-lg">
+            Full-Stack Developer &amp; 3D Web Enthusiast
           </div>
 
-          {/* Text Content */}
-          <div className="flex-1 text-center lg:text-right max-w-2xl order-2 lg:order-1">
-            <h1
-              ref={titleRef}
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-4 sm:mb-6 leading-tight drop-shadow-2xl relative z-30"
-            >
-              Hi, I'm .....
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-blue-400 to-purple-400 animate-gradient drop-shadow-[0_0_15px_rgba(56,189,248,0.5)] px-1">
-                YOGESH KHINCHI
-              </span>
-            </h1>
+          <p className="mt-7 max-w-xl text-lg leading-8 text-os-muted sm:text-xl sm:leading-9">
+            I build fast, modern, and interactive web experiences using React, Node.js,
+            Three.js and AI tools.
+          </p>
 
-            <p
-              ref={subtitleRef}
-              className="text-base sm:text-lg md:text-xl text-gray-300 mb-6 sm:mb-8 leading-relaxed px-2 sm:px-0 font-medium drop-shadow-md relative z-30"
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <Button
+              href="#projects"
+              size="lg"
+              className="min-w-48 text-base"
+              onClick={(event) => {
+                event.preventDefault();
+                scrollTo('#projects');
+              }}
             >
-              Driven by curiosity and creativity, I craft responsive designs that not only look great but also deliver seamless performance across all devices ..
-            </p>
+              View Projects
+              <ArrowUpRight className="h-5 w-5" aria-hidden="true" />
+            </Button>
 
-            <div ref={ctaRef} className="flex justify-center lg:justify-end mb-6 sm:mb-8 px-2 sm:px-0">
-              <button
-                onClick={downloadResume}
-                onMouseEnter={handleButtonHover}
-                onMouseLeave={handleButtonLeave}
-                className="group px-6 py-3 sm:px-8 sm:py-4 bg-transparent border-2 border-white text-white rounded-full font-bold hover:bg-white hover:text-black hover:shadow-[0_0_20px_rgba(255,255,255,0.4)] hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2 text-sm sm:text-base shadow-xl relative z-30 overflow-hidden"
-              >
-                <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out z-0"></div>
+            <Button
+              href="#contact"
+              variant="secondary"
+              size="lg"
+              className="min-w-44 text-base"
+              onClick={(event) => {
+                event.preventDefault();
+                scrollTo('#contact');
+              }}
+            >
+              Hire Me
+              <Send className="h-5 w-5" aria-hidden="true" />
+            </Button>
+          </div>
+
+          <div className="mt-7 flex flex-wrap items-center gap-4">
+            {socialLinks.map((link) => {
+              const Icon = socialIconMap[link.label as keyof typeof socialIconMap] ?? Github;
+
+              return (
                 <a
-                  className="flex items-center gap-2 relative z-10"
-                  style={{ textDecoration: 'none' }}
+                  key={link.label}
+                  href={link.href}
+                  target={link.href.startsWith('http') ? '_blank' : undefined}
+                  rel={link.href.startsWith('http') ? 'noreferrer' : undefined}
+                  className="grid h-14 w-14 place-items-center rounded-full border border-white/15 bg-white/[0.055] text-os-text shadow-glass-soft backdrop-blur-xl transition hover:-translate-y-1 hover:border-os-cyan/50 hover:bg-os-cyan/10 hover:text-os-cyan focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-os-cyan"
+                  aria-label={link.label}
                 >
-                  <Download className="w-4 h-4 sm:w-5 sm:h-5 group-hover:-translate-y-1 transition-transform" />
-                  <span>Download CV</span>
+                  <Icon className="h-6 w-6" aria-hidden="true" />
                 </a>
-              </button>
-            </div>
-
-            {/* Social Links */}
-            <div ref={socialRef} className="flex gap-3 sm:gap-4 justify-center lg:justify-end px-2 sm:px-0 relative z-30">
-              <a
-                href="#"
-                className="p-2 sm:p-3 bg-white/5 backdrop-blur-md border border-white/10 rounded-full text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300 hover:scale-110 shadow-lg"
-                onMouseEnter={e => gsap.to(e.currentTarget, { scale: 1.1, duration: 0.2 })}
-                onMouseLeave={e => gsap.to(e.currentTarget, { scale: 1, duration: 0.2 })}
-              >
-                <Github className="w-5 h-5 sm:w-6 sm:h-6" />
-              </a>
-              <a
-                href="https://www.linkedin.com/in/yogesh-khinchi-1103j?utm_source=share_via&utm_content=profile&utm_medium=member_android"
-                className="p-2 sm:p-3 bg-white/5 backdrop-blur-md border border-white/10 rounded-full text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300 hover:scale-110 shadow-lg"
-                onMouseEnter={e => gsap.to(e.currentTarget, { scale: 1.1, duration: 0.2 })}
-                onMouseLeave={e => gsap.to(e.currentTarget, { scale: 1, duration: 0.2 })}
-              >
-                <Linkedin className="w-5 h-5 sm:w-6 sm:h-6" />
-              </a>
-              <a
-                href="mailto:ui24s85@iiitsurat.ac.in"
-                className="p-2 sm:p-3 bg-white/5 backdrop-blur-md border border-white/10 rounded-full text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300 hover:scale-110 shadow-lg"
-                onMouseEnter={e => gsap.to(e.currentTarget, { scale: 1.1, duration: 0.2 })}
-                onMouseLeave={e => gsap.to(e.currentTarget, { scale: 1, duration: 0.2 })}
-              >
-                <Mail className="w-5 h-5 sm:w-6 sm:h-6" />
-              </a>
-            </div>
+              );
+            })}
           </div>
+        </div>
+
+        <div ref={visualRef} className="relative">
+          <HeroModelStage />
         </div>
       </div>
 
-      {/* Scroll Indicator */}
-      <div
-        ref={scrollIndicatorRef}
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20"
-      >
-        <div className="flex flex-col items-center gap-2 text-white/50">
-          <span className="text-sm font-bold tracking-widest uppercase">Scroll to explore</span>
-          <div className="w-5 h-8 border-2 border-white/20 rounded-full flex justify-center">
-            <div className="w-1 h-2 bg-white/50 rounded-full mt-2 animate-bounce"></div>
-          </div>
+      <div ref={statsRef} className="relative z-20 mx-auto mt-2 max-w-[92rem]">
+        <div className="grid gap-4 rounded-[1.6rem] border border-os-violet/35 bg-[#070d1d]/62 p-4 shadow-[0_0_55px_rgba(139,92,246,0.12)] backdrop-blur-xl sm:grid-cols-2 lg:grid-cols-5 lg:p-5">
+          {trustStats.map((stat, index) => {
+            const Icon = statIcons[index] ?? Award;
+
+            return (
+              <div
+                key={stat.label}
+                className="relative flex items-center gap-4 rounded-2xl px-4 py-4"
+              >
+                {index > 0 && (
+                  <div className="absolute -left-2 top-1/2 hidden h-14 w-px -translate-y-1/2 bg-white/10 lg:block" />
+                )}
+
+                <div className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl border border-os-violet/35 bg-os-violet/10 text-os-violet shadow-[0_0_25px_rgba(139,92,246,0.22)]">
+                  <Icon className="h-7 w-7" aria-hidden="true" />
+                </div>
+
+                <div>
+                  <p className="font-display text-3xl font-black leading-none text-os-violet">
+                    {stat.value}
+                  </p>
+                  <p className="mt-1 text-sm leading-5 text-os-text/85">
+                    {stat.label}
+                  </p>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
-
-      {/* Custom SVG Background Pattern */}
-      <svg
-        className="absolute inset-0 w-full h-full z-5 pointer-events-none opacity-50"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <defs>
-          <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
-            <path
-              d="M 60 0 L 0 0 0 60"
-              fill="none"
-              stroke="rgba(0,0,0,0.05)"
-              strokeWidth="1"
-            />
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#grid)" />
-      </svg>
     </section>
   );
 };

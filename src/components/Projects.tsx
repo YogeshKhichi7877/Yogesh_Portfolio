@@ -1,350 +1,438 @@
-import React, { useEffect, useRef } from 'react';
-import { gsap } from 'gsap';
-import { ExternalLink, Github, Eye, Star, GitBranch, Calendar, Users, Code } from 'lucide-react';
+// import React, { useMemo, useState } from 'react';
+// import { ArrowUpRight, ExternalLink, Layers3, MonitorSmartphone, Sparkles } from 'lucide-react';
+// import { featuredProjects, projectCategories, type FeaturedProject } from '../data/projects';
+// import { SectionShell } from './layout/SectionShell';
+// import { GlassCard } from './ui/GlassCard';
+// import { Button } from './ui/Button';
 
-const projects = [
-      {
-      title: "PaperStack ",
-      description: "Modern website for iiit surat students , they can see all the previous years papers  and can upload there own papers as well.",
-      longDescription: "Full-stack paper sharing platform for iiit surat students with user authentication, paper upload/download, and search functionality.",
-      image: "/paperstack.png",
-      images: [
-        "/paperstack.png"
-      ],
-      tech: ["React", "Node.js", "MongoDB", "Express.js", "Tailwind CSS"],
-      category: "Full-Stack",
-      github: "",
-      live: "https://paper-stack-beryl.vercel.app/",
-      featured: true,
-      stats: { stars: 202, forks: 59, views: "5.5k" },
-      duration: "1 months",
-      team: "1 developer",
-      status: "Completed"
-    },
-     {
-      title: "Resume Lens ",
-      description: "Modern fullStack application used to Analyse your Resume .",
-      longDescription: "fullstack website tells weakness and strenghts with the help of AI , it tells your weakness , strenghts , grammar mistakes and more . Also have someintersting Ai tools to your work easy .",
-      image: "/resumeAnalyser.png",
-      images: [
-       "/resumeAnalyser.png"
-      ],
-      tech: ["React", "Node.js", "MongoDB", "Express.js", "Tailwind CSS", 'Groq Ai'],
-      category: "Full-Stack",
-      github: "",
-      live: "http://www.resumelens.me",
-      featured: true,
-      stats: { stars: 302, forks: 59, views: "3.5k" },
-      duration: "1 months",
-      team: "1 developer",
-      status: "Completed"
-    },
-    {
-      title: "Expense Tracker",
-      description: "A web application for tracking personal expenses and managing budgets.",
-      longDescription: "This application allows users to log their expenses, categorize them, and visualize their spending habits over time.category vise pie charts and many more ",
-      image: "/expense.png",
-      images: [
-       '/expense.png'
-      ],
-      tech: ["Node.js", "Express.js", "React.js", "MongoDB", "PWA"],
-      category: "Full-Stack",
-      github: "#",
-      live: "https://expensetracker2-eight.vercel.app/",
-      featured: true,
-      stats: { stars: 145, forks: 123, views: "3.8k" },
-      duration: "2 weeks",
-      team: "1 developer",
-      status: "Completed"
-    },
-      {
-      title: "E-Commerce Platform",
-      description: "Modern e-commerce solution , real-time inventory management, and advanced analytics dashboard.Includes advanced security features and user authentication.",
-      longDescription: "Full-stack e-commerce platform , advanced filtering, and comprehensive admin dashboard with sales analytics.",
-      image: "https://images.pexels.com/photos/230544/pexels-photo-230544.jpeg?auto=compress&cs=tinysrgb&w=800",
-      images: [
-        "https://images.pexels.com/photos/230544/pexels-photo-230544.jpeg?auto=compress&cs=tinysrgb&w=400",
-        "https://images.pexels.com/photos/264636/pexels-photo-264636.jpeg?auto=compress&cs=tinysrgb&w=400",
-        "https://images.pexels.com/photos/265087/pexels-photo-265087.jpeg?auto=compress&cs=tinysrgb&w=400"
-      ],
-      tech: ["React", "Node.js", "MongoDB", "Express.js", "Tailwind CSS"],
-      category: "Full-Stack",
-      github: "",
-      live: "https://yogeshkhichi7877.github.io/Ecommerce_web/",
-      featured: true,
-      stats: { stars: 102, forks: 39, views: "2.5k" },
-      duration: "3 months",
-      team: "2 developers",
-      status: "Completed"
-    },
-    {
-      title: "3D Portfolio Website",
-      description: "Interactive portfolio website featuring immersive 3D models, particle systems, and smooth GSAP animations.",
-      longDescription: "Cutting-edge portfolio showcasing advanced web development techniques including WebGL rendering, physics simulations, and responsive 3D interactions with real-time lighting effects.",
-      image: "https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=800",
-      images: [
-        "https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=400",
-        "https://images.pexels.com/photos/1181298/pexels-photo-1181298.jpeg?auto=compress&cs=tinysrgb&w=400",
-        "https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=400"
-      ],
-      tech: ["Three.js", "React", "GSAP", "WebGL", "Blender", "Javascript"],
-      category: "Three.js/WebGL",
-      github: "#",
-      live: "#",
-      featured: true,
-      stats: { stars: 189, forks: 45, views: "3.1k" },
-      duration: "2 months",
-      team: "Solo project",
-      status: "Completed"
-    },
-    {
-      title: "Full Stack Authentication System",
-      description: "Modern authentication website with end to end encryption and secure login system.",
-      longDescription: "Comprehensive authentication system with end-to-end encryption, password reset, email verification, and secure login.",
-      image: "https://images.pexels.com/photos/267350/pexels-photo-267350.jpeg?auto=compress&cs=tinysrgb&w=800",
-      images: [
-        "https://images.pexels.com/photos/267350/pexels-photo-267350.jpeg?auto=compress&cs=tinysrgb&w=400",
-        "https://images.pexels.com/photos/267371/pexels-photo-267371.jpeg?auto=compress&cs=tinysrgb&w=400",
-        "https://images.pexels.com/photos/267389/pexels-photo-267389.jpeg?auto=compress&cs=tinysrgb&w=400"
-      ],
-      tech: ["HTML", "CSS", "Javascript", "Node.js", "MongoDB", "Express.js", "Tailwind CSS"],
-      category: "Full-Stack",
-      github: "",
-      live: "https://yogeshkhichi7877.github.io/Signup_app/",
-      featured: false,
-      stats: { stars: 98, forks: 24, views: "2.8k" },
-      duration: "4 months",
-      team: "2 developers",
-      status: "Completed"
-    },
-    {
-      title: "AI-Chat Box",
-      description: "AI chat box with real-time messaging, file sharing, video calls, and advanced moderation features.",
-      longDescription: "Based on google gemini api, it is a chat box that can be used to chat with AI.",
-      image: "https://images.pexels.com/photos/590020/pexels-photo-590020.jpeg?auto=compress&cs=tinysrgb&w=800",
-      images: [
-        "https://images.pexels.com/photos/590020/pexels-photo-590020.jpeg?auto=compress&cs=tinysrgb&w=400",
-        "https://images.pexels.com/photos/590022/pexels-photo-590022.jpeg?auto=compress&cs=tinysrgb&w=400",
-        "https://images.pexels.com/photos/669996/pexels-photo-669996.jpeg?auto=compress&cs=tinysrgb&w=400"
-      ],
-      tech: ["HTML", "CSS", "Javascript", "Tailwind CSS", "Google Gemini API"],
-      category: "AI",
-      github: "",
-      live: "https://yogeshkhichi7877.github.io/AI-Model/",
-      featured: false,
-      stats: { stars: 104, forks: 33, views: "4.4k" },
-      duration: "1 months",
-      team: "1 developer",
-      status: "Completed"
-    },
-    {
-      title: "News Collector",
-      description: "A news application which finds and curates articles from various sources.",
-      longDescription: "This platform uses AI to analyze and summarize news articles, providing users with personalized news feeds and insights.",
-      image: "https://images.pexels.com/photos/4386453/pexels-photo-4386453.jpeg?auto=compress&cs=tinysrgb&w=800",
-      images: [
-        "https://images.pexels.com/photos/4386331/pexels-photo-4386331.jpeg?auto=compress&cs=tinysrgb&w=400",
-        "https://images.pexels.com/photos/4386431/pexels-photo-4386431.jpeg?auto=compress&cs=tinysrgb&w=400",
-        "https://images.pexels.com/photos/4386370/pexels-photo-4386370.jpeg?auto=compress&cs=tinysrgb&w=400"
-      ],
-      tech: ["React Native", "Node.js", "MongoDB", "JWT", "Stripe"],
-      category: "Full-Stack",
-      github: "#",
-      live: "#",
-      featured: false,
-      stats: { stars: 167, forks: 23, views: "2.1k" },
-      duration: "2 weeks",
-      team: "1 developer",
-      status: "Completed"
-    }
+// const categoryDescriptions = {
+//   All: 'Some of the awesome projects I have built.',
+//   'Full-Stack': 'MERN-style products with UI, API logic, and real product workflows.',
+//   'AI Product': 'AI-assisted tools and interfaces built around practical user outcomes.',
+//   'Creative Web': 'Interactive frontend and 3D experiences designed to feel memorable.',
+// };
 
+// const ProjectCard = ({ project, index }: { project: FeaturedProject; index: number }) => {
+//   return (
+//     <GlassCard
+//       className="group flex h-full flex-col overflow-hidden transition duration-300 hover:-translate-y-1 hover:border-os-cyan/40"
+//     >
+//       <div className="relative min-h-56 overflow-hidden">
+//         <img
+//           src={project.image}
+//           alt={`${project.title} project preview`}
+//           className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
+//           loading={index > 1 ? 'lazy' : 'eager'}
+//         />
+//         <div className="absolute inset-0 bg-gradient-to-t from-os-bg via-os-bg/40 to-transparent" />
+//         <div className="absolute left-4 top-4 flex flex-wrap gap-2">
+//           <span className="rounded-full border border-os-cyan/25 bg-os-cyan/10 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-os-cyan backdrop-blur-xl">
+//             {project.category}
+//           </span>
+//           <span className="rounded-full border border-os-line bg-black/30 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-os-muted backdrop-blur-xl">
+//             {project.status}
+//           </span>
+//         </div>
+//       </div>
+
+//       <div className="flex flex-1 flex-col p-5 sm:p-6">
+//         <div className="mb-4 flex items-start justify-between gap-4">
+//           <div>
+//             <h3 className="font-display text-2xl font-bold tracking-tight text-os-text">
+//               {project.title}
+//             </h3>
+//             <p className="mt-3 text-sm leading-6 text-os-muted">{project.summary}</p>
+//           </div>
+//           <div className="hidden h-11 w-11 shrink-0 place-items-center rounded-2xl border border-os-line bg-os-cyan/10 text-os-cyan sm:grid">
+//             {project.category === 'Creative Web' ? (
+//               <Layers3 className="h-5 w-5" aria-hidden="true" />
+//             ) : project.category === 'AI Product' ? (
+//               <Sparkles className="h-5 w-5" aria-hidden="true" />
+//             ) : (
+//               <MonitorSmartphone className="h-5 w-5" aria-hidden="true" />
+//             )}
+//           </div>
+//         </div>
+
+//         <div className="rounded-2xl border border-os-line bg-white/[0.035] p-4">
+//           <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-os-cyan">
+//             Product signal
+//           </p>
+//           <p className="mt-2 text-sm leading-6 text-os-muted">{project.impact}</p>
+//         </div>
+
+//         <div className="mt-5 flex flex-wrap gap-2">
+//           {project.tech.map((tech) => (
+//             <span
+//               key={tech}
+//               className="rounded-full border border-os-line bg-white/[0.045] px-3 py-1.5 text-xs font-medium text-os-muted"
+//             >
+//               {tech}
+//             </span>
+//           ))}
+//         </div>
+
+//         <div className="mt-auto flex flex-wrap gap-3 pt-6">
+//           {project.liveUrl && (
+//             <Button
+//               href={project.liveUrl}
+//               size="sm"
+//               target="_blank"
+//               rel="noreferrer"
+//               aria-label={`Open live project: ${project.title}`}
+//             >
+//               <ExternalLink className="h-4 w-4" aria-hidden="true" />
+//               Live Project
+//             </Button>
+//           )}
+//           {project.sourceUrl && (
+//             <Button
+//               href={project.sourceUrl}
+//               variant="secondary"
+//               size="sm"
+//               target="_blank"
+//               rel="noreferrer"
+//               aria-label={`Open source code for ${project.title}`}
+//             >
+//               Source Code
+//             </Button>
+//           )}
+//         </div>
+//       </div>
+//     </GlassCard>
+//   );
+// };
+
+// const Projects = () => {
+//   const [activeCategory, setActiveCategory] =
+//     useState<(typeof projectCategories)[number]>('All');
+
+//   const visibleProjects = useMemo(() => {
+//     if (activeCategory === 'All') return featuredProjects;
+//     return featuredProjects.filter((project) => project.category === activeCategory);
+//   }, [activeCategory]);
+
+//   return (
+//     <SectionShell
+//       id="projects"
+//       className="bg-transparent py-24"
+//       eyebrow="Featured Projects"
+//       title="Featured Projects"
+//       description="Some of the awesome projects I've built."
+//     >
+//       <div className="mb-10 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+//         <GlassCard className="max-w-2xl p-5">
+//           <p className="font-display text-lg font-semibold text-os-text">
+//             {categoryDescriptions[activeCategory]}
+//           </p>
+//           <p className="mt-2 text-sm leading-6 text-os-muted">Filter the grid by product type and jump into live demos where available.</p>
+//         </GlassCard>
+
+//         <div
+//           className="flex gap-2 overflow-x-auto pb-2 lg:flex-wrap lg:justify-end lg:overflow-visible lg:pb-0"
+//           aria-label="Project filters"
+//         >
+//           {projectCategories.map((category) => {
+//             const isActive = activeCategory === category;
+//             const label =
+//               category === 'Full-Stack'
+//                 ? 'Full Stack'
+//                 : category === 'AI Product'
+//                   ? 'AI Projects'
+//                   : category === 'Creative Web'
+//                     ? '3D / Creative'
+//                     : category;
+
+//             return (
+//               <button
+//                 key={category}
+//                 type="button"
+//                 onClick={() => setActiveCategory(category)}
+//                 className={`min-w-max rounded-full border px-4 py-2.5 text-sm font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-os-cyan ${
+//                   isActive
+//                     ? 'border-os-cyan/40 bg-os-cyan/10 text-os-text shadow-glow'
+//                     : 'border-os-line bg-white/[0.04] text-os-muted hover:border-os-cyan/35 hover:text-os-text'
+//                 }`}
+//                 aria-pressed={isActive}
+//               >
+//                 {label}
+//               </button>
+//             );
+//           })}
+//         </div>
+//       </div>
+
+//       <div className="grid gap-6 lg:grid-cols-3">
+//         {visibleProjects.map((project, index) => (
+//           <ProjectCard key={project.title} project={project} index={index} />
+//         ))}
+//       </div>
+
+//       <div className="mt-10 flex justify-center">
+//         <Button
+//           href="#contact"
+//           variant="secondary"
+//           onClick={(event) => {
+//             event.preventDefault();
+//             document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' });
+//           }}
+//         >
+//           View All Projects
+//           <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+//         </Button>
+//       </div>
+//     </SectionShell>
+//   );
+// };
+
+// export default Projects;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import { useMemo, useState } from 'react';
+import {
+  ArrowUpRight,
+  Bot,
+  Braces,
+  Code2,
+  ExternalLink,
+  Github,
+  Layers3,
+  Sparkles,
+  type LucideIcon,
+} from 'lucide-react';
+import { featuredProjects, projectCategories, type FeaturedProject } from '../data/projects';
+import { SectionShell } from './layout/SectionShell';
+import { Button } from './ui/Button';
+
+const categoryLabels: Record<string, string> = {
+  All: 'All',
+  'Full-Stack': 'Full Stack',
+  'AI Product': 'AI Projects',
+  'Creative Web': '3D / Creative',
+  'Web App': 'Web Apps',
+};
+
+const projectIcons: Record<string, LucideIcon> = {
+  'Full-Stack': Braces,
+  'AI Product': Bot,
+  'Creative Web': Layers3,
+  'Web App': Code2,
+};
+
+const accentStyles = [
+  {
+    border: 'border-blue-500/45',
+    glow: 'shadow-[0_0_42px_rgba(59,130,246,0.18)]',
+    badge: 'border-blue-400/30 bg-blue-500/10 text-blue-200',
+  },
+  {
+    border: 'border-fuchsia-500/45',
+    glow: 'shadow-[0_0_42px_rgba(217,70,239,0.18)]',
+    badge: 'border-fuchsia-400/30 bg-fuchsia-500/10 text-fuchsia-200',
+  },
+  {
+    border: 'border-emerald-500/40',
+    glow: 'shadow-[0_0_42px_rgba(16,185,129,0.14)]',
+    badge: 'border-emerald-400/30 bg-emerald-500/10 text-emerald-200',
+  },
+  {
+    border: 'border-cyan-500/45',
+    glow: 'shadow-[0_0_42px_rgba(34,211,238,0.16)]',
+    badge: 'border-cyan-400/30 bg-cyan-500/10 text-cyan-200',
+  },
+  {
+    border: 'border-violet-500/45',
+    glow: 'shadow-[0_0_42px_rgba(139,92,246,0.18)]',
+    badge: 'border-violet-400/30 bg-violet-500/10 text-violet-200',
+  },
+  {
+    border: 'border-indigo-500/45',
+    glow: 'shadow-[0_0_42px_rgba(99,102,241,0.18)]',
+    badge: 'border-indigo-400/30 bg-indigo-500/10 text-indigo-200',
+  },
 ];
 
-// Categories as per your screenshot
-const categories = ["All", "Three.js/WebGL", "Full-Stack", "AI", "Mobile"];
+const categoryDescriptions: Record<string, string> = {
+  All: "Some of the awesome projects I've built",
+  'Full-Stack': 'Complete full-stack products with real workflows',
+  'AI Product': 'AI-powered tools built for practical outcomes',
+  'Creative Web': 'Interactive and memorable frontend experiences',
+  'Web App': 'Modern web apps with clean user experiences',
+};
 
-const Projects = () => {
-  const sectionRef = useRef<HTMLDivElement | null>(null);
-  const titleRef = useRef<HTMLHeadingElement | null>(null);
-  const filterRef = useRef<HTMLDivElement | null>(null);
-  const projectsRef = useRef<HTMLDivElement | null>(null);
-  const [activeCategory, setActiveCategory] = React.useState<string>("All");
+const getProjectIcon = (category: string) => {
+  return projectIcons[category] ?? Sparkles;
+};
 
-  // Handle filtering
-  const filteredProjects = activeCategory === "All"
-    ? projects
-    : projects.filter(project => project.category === activeCategory);
-
-  // Initial animation for section/title/filter/projects
-  useEffect(() => {
-    const tl = gsap.timeline();
-    tl.fromTo(titleRef.current, { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "power2.out" })
-      .fromTo(filterRef.current ? Array.from(filterRef.current.children) : [], { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, stagger: 0.1, ease: "power2.out" }, "-=0.4")
-      .fromTo(projectsRef.current ? Array.from(projectsRef.current.children) : [], { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, stagger: 0.17, ease: "power2.out" }, "-=0.36");
-    return () => { tl.kill(); };
-  }, [activeCategory]);
-
-  // Per card refs for GSAP
-  const cardRefs = useRef<Array<HTMLDivElement | null>>([]);
-  const imageRefs = useRef<Array<HTMLImageElement | null>>([]);
-  const overlayRefs = useRef<Array<HTMLDivElement | null>>([]);
-  const titleRefs = useRef<Array<HTMLHeadingElement | null>>([]);
-  const techRefs = useRef<Array<Array<HTMLSpanElement | null>>>([]);
-
-  // Clear arrays for each render
-  cardRefs.current = [];
-  imageRefs.current = [];
-  overlayRefs.current = [];
-  titleRefs.current = [];
-  techRefs.current = [];
-
-  // Optimized handlers using refs, not DOM queries
-  const handleCardEnter = (idx: number) => {
-    gsap.to(cardRefs.current[idx], { y: -8, scale: 1.03, duration: 0.26, ease: "power2.out", overwrite: "auto" });
-    gsap.to(imageRefs.current[idx], { scale: 1.06, duration: 0.33, overwrite: "auto" });
-    gsap.to(overlayRefs.current[idx], { opacity: 1, duration: 0.21, overwrite: "auto" });
-    gsap.to(titleRefs.current[idx], { color: "#60a5fa", duration: 0.19, overwrite: "auto" });
-    if (techRefs.current[idx])
-      gsap.to(techRefs.current[idx], { y: 0, opacity: 1, duration: 0.23, stagger: 0.05, overwrite: "auto" });
-  };
-
-  const handleCardLeave = (idx: number) => {
-    gsap.to(cardRefs.current[idx], { y: 0, scale: 1, duration: 0.25, overwrite: "auto" });
-    gsap.to(imageRefs.current[idx], { scale: 1, duration: 0.31, overwrite: "auto" });
-    gsap.to(overlayRefs.current[idx], { opacity: 0, duration: 0.19, overwrite: "auto" });
-    gsap.to(titleRefs.current[idx], { color: "#fff", duration: 0.22, overwrite: "auto" });
-    if (techRefs.current[idx])
-      gsap.to(techRefs.current[idx], { y: 0, opacity: 0.8, duration: 0.18, stagger: 0.04, overwrite: "auto" });
-  };
+const ProjectCard = ({ project, index }: { project: FeaturedProject; index: number }) => {
+  const accent = accentStyles[index % accentStyles.length];
+  const Icon = getProjectIcon(project.category);
 
   return (
-    <section ref={sectionRef} className="py-20 px-4 bg-gradient-to-b from-slate-900 to-black relative overflow-hidden">
-      {/* Background gradients */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/4 left-0 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl" />
+    <article
+      className={`group relative overflow-hidden rounded-[1.65rem] border ${accent.border} bg-white/[0.06] ${accent.glow} backdrop-blur-md transition duration-300 hover:-translate-y-2 hover:bg-white/[0.085] hover:shadow-[0_0_55px_rgba(56,189,248,0.22)]`}
+    >
+      <div className="pointer-events-none absolute inset-0 rounded-[1.65rem] bg-gradient-to-b from-white/[0.09] via-white/[0.025] to-transparent opacity-80" />
+      <div className="pointer-events-none absolute -right-20 -top-20 h-40 w-40 rounded-full bg-os-cyan/15 blur-3xl transition duration-500 group-hover:bg-os-violet/20" />
+
+      <div className="relative h-56 overflow-hidden border-b border-white/10">
+        <img
+          src={project.image}
+          alt={`${project.title} project preview`}
+          className="h-full w-full object-cover transition duration-700 group-hover:scale-110"
+          loading={index < 3 ? 'eager' : 'lazy'}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#060b18] via-[#060b18]/25 to-transparent" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_20%,rgba(34,211,238,0.18),transparent_36%)]" />
+
+        <div className="absolute left-4 top-4 flex items-center gap-2">
+          <span className={`rounded-full border px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.18em] backdrop-blur-xl ${accent.badge}`}>
+            {categoryLabels[project.category] ?? project.category}
+          </span>
+        </div>
+
+        <div className="absolute right-4 top-4 grid h-11 w-11 place-items-center rounded-2xl border border-white/10 bg-black/35 text-os-cyan shadow-[0_0_25px_rgba(34,211,238,0.22)] backdrop-blur-xl">
+          <Icon className="h-5 w-5" aria-hidden="true" />
+        </div>
       </div>
-      <div className="max-w-7xl mx-auto relative z-10">
-        <h2
-          ref={titleRef}
-          className="text-4xl md:text-6xl font-bold text-center mb-16 text-white"
-        >
-          Featured <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600">Projects</span>
-        </h2>
-        <div ref={filterRef} className="flex flex-wrap justify-center gap-4 mb-16">
-          {categories.map(category => (
+
+      <div className="relative flex min-h-[13rem] flex-col p-5">
+        <h3 className="font-display text-2xl font-bold tracking-tight text-os-text">
+          {project.title}
+        </h3>
+
+        <p className="mt-2 line-clamp-2 text-sm leading-6 text-os-muted">
+          {project.summary}
+        </p>
+
+        <div className="mt-5 flex flex-wrap gap-2">
+          {project.tech.slice(0, 3).map((tech) => (
+            <span
+              key={tech}
+              className="rounded-lg border border-os-violet/25 bg-os-violet/10 px-3 py-1.5 text-xs font-semibold text-violet-200"
+            >
+              {tech}
+            </span>
+          ))}
+        </div>
+
+        <div className="mt-auto flex items-center justify-between gap-3 pt-6">
+          <div className="flex items-center gap-2">
+            {project.liveUrl && (
+              <a
+                href={project.liveUrl}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={`Open live project: ${project.title}`}
+                className="grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-white/[0.055] text-os-text transition hover:border-os-cyan/40 hover:bg-os-cyan/10 hover:text-os-cyan"
+              >
+                <ExternalLink className="h-4 w-4" aria-hidden="true" />
+              </a>
+            )}
+
+            {project.sourceUrl && (
+              <a
+                href={project.sourceUrl}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={`Open source code for ${project.title}`}
+                className="grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-white/[0.055] text-os-text transition hover:border-os-violet/40 hover:bg-os-violet/10 hover:text-os-violet"
+              >
+                <Github className="h-4 w-4" aria-hidden="true" />
+              </a>
+            )}
+          </div>
+
+          <span className="inline-flex items-center gap-1 text-xs font-semibold text-os-muted">
+            View
+            <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+          </span>
+        </div>
+      </div>
+    </article>
+  );
+};
+
+const Projects = () => {
+  const [activeCategory, setActiveCategory] =
+    useState<(typeof projectCategories)[number]>('All');
+
+  const visibleProjects = useMemo(() => {
+    if (activeCategory === 'All') return featuredProjects;
+    return featuredProjects.filter((project) => project.category === activeCategory);
+  }, [activeCategory]);
+
+  return (
+    <SectionShell
+      id="projects"
+      className="relative bg-transparent py-24 sm:py-28"
+      eyebrow="Featured Work"
+      title="Featured Projects"
+      description={categoryDescriptions[activeCategory] ?? "Some of the awesome projects I've built"}
+    >
+      <div
+        className="mb-12 flex gap-4 overflow-x-auto pb-3 lg:justify-center lg:overflow-visible"
+        aria-label="Project filters"
+      >
+        {projectCategories.map((category) => {
+          const isActive = activeCategory === category;
+          const label = categoryLabels[category] ?? category;
+
+          return (
             <button
               key={category}
+              type="button"
               onClick={() => setActiveCategory(category)}
-              className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
-                activeCategory === category
-                  ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg scale-105'
-                  : 'bg-gray-800/50 text-gray-300 hover:bg-gray-700/50 border border-gray-700 hover:border-blue-500/50'
+              className={`min-w-max rounded-xl border px-7 py-3.5 text-sm font-bold transition duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-os-cyan ${
+                isActive
+                  ? 'border-os-cyan/45 bg-gradient-to-r from-blue-600 to-fuchsia-500 text-white shadow-[0_0_35px_rgba(139,92,246,0.42)]'
+                  : 'border-white/10 bg-white/[0.055] text-os-muted backdrop-blur-xl hover:border-os-cyan/35 hover:bg-white/[0.08] hover:text-os-text'
               }`}
+              aria-pressed={isActive}
             >
-              {category}
+              {label}
             </button>
-          ))}
-        </div>
-        <div ref={projectsRef} className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProjects.map((project, i) => (
-            <div
-              key={i}
-              ref={el => (cardRefs.current[i] = el)}
-              className={`project-card group bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700/50 hover:border-blue-500/50 transition-all duration-500 cursor-pointer`}
-              onMouseEnter={() => handleCardEnter(i)}
-              onMouseLeave={() => handleCardLeave(i)}
-            >
-              <div className="relative overflow-hidden">
-                <img
-                  ref={el => (imageRefs.current[i] = el)}
-                  src={project.image}
-                  alt={project.title}
-                  className="project-image w-full h-64 object-cover transition-transform duration-500"
-                />
-                <div
-                  ref={el => (overlayRefs.current[i] = el)}
-                  className="project-overlay absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-0 transition-opacity duration-300"
-                />
-                <div className="absolute top-4 left-4 flex gap-2">
-                  <span className="px-3 py-1 bg-black/70 backdrop-blur-sm rounded-full text-white text-sm flex items-center gap-1">
-                    <Star className="w-3 h-3 text-yellow-400" />
-                    {project.stats.stars}
-                  </span>
-                  <span className="px-3 py-1 bg-black/70 backdrop-blur-sm rounded-full text-white text-sm flex items-center gap-1">
-                    <GitBranch className="w-3 h-3 text-green-400" />
-                    {project.stats.forks}
-                  </span>
-                  <span className="px-3 py-1 bg-black/70 backdrop-blur-sm rounded-full text-white text-sm flex items-center gap-1">
-                    <Eye className="w-3 h-3 text-blue-400" />
-                    {project.stats.views}
-                  </span>
-                </div>
-                <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <a
-                    href={project.github}
-                    className="p-3 bg-black/70 backdrop-blur-sm rounded-full text-white hover:bg-black/90 transition-colors hover:scale-110"
-                  >
-                    <Github className="w-5 h-5" />
-                  </a>
-                  <a
-                    href={project.live}
-                    className="p-3 bg-black/70 backdrop-blur-sm rounded-full text-white hover:bg-black/90 transition-colors hover:scale-110"
-                  >
-                    <ExternalLink className="w-5 h-5" />
-                  </a>
-                </div>
-                <div className="absolute bottom-4 right-4">
-                  <span className="px-3 py-1 bg-gradient-to-r from-blue-500/90 to-purple-600/90 backdrop-blur-sm rounded-full text-white text-sm font-medium flex items-center gap-1">
-                    <Code className="w-3 h-3" />
-                    {project.category}
-                  </span>
-                </div>
-              </div>
-              <div className="p-8">
-                <h3
-                  ref={el => (titleRefs.current[i] = el)}
-                  className="project-title text-2xl font-bold text-white mb-4 transition-colors duration-300"
-                >
-                  {project.title}
-                </h3>
-                <p className="text-gray-400 mb-4 leading-relaxed">{project.description}</p>
-                <div className="flex flex-wrap gap-2 mb-6">
-                  {project.tech.map((tech, techIdx) => (
-                    <span
-                      key={techIdx}
-                      ref={el => {
-                        if (!techRefs.current[i]) techRefs.current[i] = [];
-                        techRefs.current[i][techIdx] = el;
-                      }}
-                      className="tech-tag px-3 py-1 bg-blue-500/20 text-blue-300 rounded-full text-sm border border-blue-500/30 hover:bg-blue-500/30 transition-all duration-300 hover:scale-105"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-                <div className="flex gap-4">
-                  <a
-                    href={project.live}
-                    className="flex-1 px-4 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg font-medium hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300 text-center hover:scale-105 flex items-center justify-center gap-2"
-                  >
-                    <ExternalLink className="w-4 h-4" />
-                    View Live
-                  </a>
-                  <a
-                    href={project.github}
-                    className="flex-1 px-4 py-3 border border-gray-600 text-gray-300 rounded-lg font-medium hover:bg-gray-700/50 hover:border-blue-500/50 transition-all duration-300 text-center hover:scale-105 flex items-center justify-center gap-2"
-                  >
-                    <Github className="w-4 h-4" />
-                    Source Code
-                  </a>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+          );
+        })}
       </div>
-    </section>
+
+      <div className="mx-auto grid max-w-7xl gap-6 md:grid-cols-2 xl:grid-cols-3">
+        {visibleProjects.map((project, index) => (
+          <ProjectCard key={project.title} project={project} index={index} />
+        ))}
+      </div>
+
+      <div className="mt-12 flex justify-center">
+        <Button
+          href="#contact"
+          onClick={(event) => {
+            event.preventDefault();
+            document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' });
+          }}
+        >
+          View All Projects
+          <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+        </Button>
+      </div>
+    </SectionShell>
   );
 };
 
