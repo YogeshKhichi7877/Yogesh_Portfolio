@@ -4,8 +4,8 @@ export const siteProfile = {
   positioning:
     'I build fast, modern, and interactive web experiences using React, Node.js, Three.js and AI tools.',
   location: 'Surat, Gujarat, India',
-  email: 'YogeshKhinchi7877@gmail.com',
-  phone: '+91 78770 80701',
+  email: 'YogeshKhinchi2005@gmail.com',
+  phone: '+91 7877xxxxxxx',
   resumeHref: '/Yogesh_Khinchi_Resume_v3.pdf',
 };
 
